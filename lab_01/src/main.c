@@ -1,5 +1,6 @@
 #define _USEMINGW_ANSI_STDIO 1
 #include "../inc/io.h"
+#include "../inc/parse.h"
 
 int main(void)
 {

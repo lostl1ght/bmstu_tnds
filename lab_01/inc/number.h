@@ -11,7 +11,6 @@ typedef struct number
     int sign_m;
     int mantissa[MAX_MANTISSA * 2];
     size_t len_m;
-    int sign_e;
     int exponent;
 } number_t;
 
