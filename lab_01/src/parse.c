@@ -27,10 +27,13 @@ int parse_number(char str[], number_t *num)
             num->len_m++;
         }
         else if (*p == '.' || *p == ',')
-        {
             num->exponent -= num->len_m;
-        }
         p--;
     }
+    p++;
+    if (isdigit(*p) || *p == '+')
+        num->sign_m = 1;
+    else if (*p == '-')
+        num->sign_m = -1;
     return PARSE_SUCCESS;
 }
