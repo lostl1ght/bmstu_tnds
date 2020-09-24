@@ -7,7 +7,7 @@
 int input_str(char str[])
 {
     printf("Input number: ");
-    if (!fgets(str, MAX_SYMBOLS + 2, stdin))
+    if (!fgets(str, MAX_SYMBOLS + 3, stdin))
         return IO_FAILURE;
     return IO_SUCCESS;
 }
