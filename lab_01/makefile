@@ -1,3 +1,4 @@
+CC := gcc
 OBJPATH := ./out/
 INCPATH := ./inc/
 SRCPATH := ./src/
@@ -22,17 +23,20 @@ $(OBJPATH)debug.lastbuildstate:
 	touch $(OBJPATH)debug.lastbuildstate
 
 
-app.exe: $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)main.o
-	gcc $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)main.o -o app.exe
+app.exe: $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)main.o
+	$(CC) $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)main.o -o app.exe
 
 $(OBJPATH)main.o: $(SRCPATH)main.c
-	gcc $(CFLAGS) -c $(SRCPATH)main.c -o $(OBJPATH)main.o
+	$(CC) $(CFLAGS) -c $(SRCPATH)main.c -o $(OBJPATH)main.o
 
 $(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h
-	gcc $(CFLAGS) -c $(SRCPATH)io.c -o $(OBJPATH)io.o
+	$(CC) $(CFLAGS) -c $(SRCPATH)io.c -o $(OBJPATH)io.o
 
 $(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h
-	gcc $(CFLAGS) -c $(SRCPATH)parse.c -o $(OBJPATH)parse.o
+	$(CC) $(CFLAGS) -c $(SRCPATH)parse.c -o $(OBJPATH)parse.o
+
+$(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h
+	$(CC) $(CFLAGS) -c $(SRCPATH)check.c -o $(OBJPATH)check.o
 
 .PHONY: clean
 clean:
