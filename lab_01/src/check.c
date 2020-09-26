@@ -1,6 +1,5 @@
 #include "../inc/check.h"
 #include "../inc/number.h"
-#include <stdio.h>
 
 #define CHECK_SUCCESS 0
 #define CHECK_FAILURE 1
@@ -11,9 +10,16 @@
 int check_str(char str[])
 {
     char *e_pointer = NULL;
+    char *end;
+    size_t e_count;
     if (check_char(str))
         return CHECK_WRONG_CHARACTERS;
-    if (check_e(str, &e_pointer))
+    end = str + strlen(str); 
+    if ((e_count = count_char('E', str, end)))
+        e_pointer = strrchr(str, 'E');
+    if ((e_count += count_char('e', str, end)))
+        e_pointer = strrchr(str, 'e');
+    if (e_count > 1)
         return CHECK_WRONG_CHARACTERS;
     if (check_mantissa(str, e_pointer))
         return CHECK_MANT_ERROR;
@@ -33,23 +39,6 @@ int check_char(char *p)
             return CHECK_FAILURE;
         p++;
     }
-    return CHECK_SUCCESS;
-}
-
-int check_e(char *p, char **e_pointer)
-{
-    int e_count = 0;
-    while (*p)
-    {
-        if (*p == 'e' || *p == 'E')
-        {
-            *e_pointer = p;
-            e_count++;
-        }
-        p++;
-    }
-    if (e_count > 1)
-        return CHECK_FAILURE;
     return CHECK_SUCCESS;
 }
 
