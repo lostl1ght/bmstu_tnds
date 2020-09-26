@@ -2,8 +2,7 @@
 #define IO_H
 
 #include <stdio.h>
-
-#define MAX_SYMBOLS 38
+#include "number.h"
 
 int input_str(char str[]);
 

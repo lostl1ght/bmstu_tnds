@@ -1,4 +1,5 @@
 #include "../inc/check.h"
+#include "../inc/number.h"
 #include <stdio.h>
 
 #define CHECK_SUCCESS 0
@@ -64,9 +65,51 @@ int check_exponent(char *e_pointer)
         return CHECK_FAILURE;
     if (strrchr(e_pointer, '.') || strrchr(e_pointer, ','))
         return CHECK_FAILURE;
-    if (strrchr(e_pointer, '+') && *e_pointer != '+')
+    if (check_exp_len(e_pointer))
         return CHECK_FAILURE;
-    if (strrchr(e_pointer, '-') && *e_pointer != '-')
+    return CHECK_SUCCESS;
+}
+
+int check_exp_len(char *e_pointer)
+{
+    if (strrchr(e_pointer, '+'))
+    {
+        if (*e_pointer != '+')
+            return CHECK_FAILURE;
+        else
+        {
+            e_pointer++;
+            if (check_len_exp_num(e_pointer))
+                return CHECK_FAILURE;
+        }
+    }
+    else if (strrchr(e_pointer, '-'))
+    {
+        if (*e_pointer != '-')
+            return CHECK_FAILURE;
+        else
+        {
+            e_pointer++;
+            if (check_len_exp_num(e_pointer))
+                return CHECK_FAILURE;
+        }
+    }
+    else
+        if (check_len_exp_num(e_pointer))
+            return CHECK_FAILURE;
+    return CHECK_SUCCESS;
+}
+
+int check_len_exp_num(char *p)
+{
+    size_t len;
+    len = strlen(p);
+    if (strrchr(p, '\n'))
+    {
+        if (len > MAX_EXPONENT + 1)
+            return CHECK_FAILURE;
+    }
+    else if (len > MAX_EXPONENT)
         return CHECK_FAILURE;
     return CHECK_SUCCESS;
 }
