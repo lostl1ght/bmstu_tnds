@@ -3,14 +3,12 @@ OBJPATH := ./out/
 INCPATH := ./inc/
 SRCPATH := ./src/
 CFLAGS := -std=c99 -Wall -Wextra -Wpedantic -Werror
+.NOTPARALLEL: release debug
+.PHONY: release debug clean
 
-.NOTPARALLEL: release
-.PHONY: release
 release: CFLAGS += -g0 -O0
-release:app.exe $(OBJPATH)release.lastbuildstate 
+release: $(OBJPATH)release.lastbuildstate app.exe 
 
-.NOTPARALLEL: debug
-.PHONY: debug
 debug: CFLAGS += -g3 -O0
 debug: $(OBJPATH)debug.lastbuildstate app.exe
 
@@ -40,7 +38,6 @@ $(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h $(INCPATH)number.h
 $(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h $(INCPATH)number.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)check.c -o $(OBJPATH)check.o
 
-.PHONY: clean
 clean:
 	rm -rf *.exe $(OBJPATH)
 	mkdir $(OBJPATH)
