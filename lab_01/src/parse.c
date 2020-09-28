@@ -32,5 +32,25 @@ int parse_number(char str[], number_t *num)
         num->sign_m = 1;
     else if (*p == '-')
         num->sign_m = -1;
+    remove_zeros(num);
     return PARSE_SUCCESS;
+}
+
+void remove_zeros(number_t *num)
+{
+    size_t i = num->len_m -1;
+    while (num->mantissa[i] == 0)
+    {
+        num->len_m--;
+        i--;
+    }
+    i = 0;
+    while (num->mantissa[i] == 0)
+    {
+        for (size_t j = i; j < num->len_m - 1; j++)
+            num->mantissa[j] = num->mantissa[j + 1];
+        num->mantissa[num->len_m - 1] = 0;
+        num->len_m--;
+        num->exponent--;
+    }
 }
