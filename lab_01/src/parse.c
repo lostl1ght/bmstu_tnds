@@ -28,7 +28,7 @@ int parse_number(char str[], number_t *num)
         p--;
     }
     p++;
-    if (isdigit(*p) || *p == '+')
+    if (isdigit(*p) || *p == '+' || *p == '.' || *p == ',')
         num->sign_m = 1;
     else if (*p == '-')
         num->sign_m = -1;

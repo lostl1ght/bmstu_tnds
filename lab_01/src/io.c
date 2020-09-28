@@ -12,3 +12,15 @@ int input_str(char str[])
         return IO_FAILURE;
     return IO_SUCCESS;
 }
+
+void output_check(const number_t *num)
+{
+    printf("Sign is %d\n", num->sign_m);
+    printf("Mantissa is ");
+    if (num->mantissa[num->len_m - 1] != 0)
+        printf("%d", num->mantissa[num->len_m - 1]);
+    for (size_t i = num->len_m - 2; i != 0 ; i--)
+        printf("%d", num->mantissa[i]);
+    printf("%d", num->mantissa[0]);
+    printf("\nExponent is %d", num->exponent);
+}

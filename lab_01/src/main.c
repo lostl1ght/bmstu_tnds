@@ -12,10 +12,16 @@ int main(void)
     // number_t num2 = {.len_m = 0, .mantissa = {0}, .exponent = 0};
     // number_t res;
     if (input_str(str))
+    {
         puts("Cannot read number.");
+        return 1;
+    }
     if (check_str(str))
+    {
         puts("Checking failed.");
+        return 2;
+    }
     parse_number(str, &num1);
-    puts("OK");
+    output_check(&num1);
     return 0;
 }
