@@ -4,11 +4,13 @@ INCPATH := ./inc/
 SRCPATH := ./src/
 CFLAGS := -std=c99 -Wall -Wextra -Wpedantic -Werror
 
-.NOTPARALLEL: release debug
-.PHONY: release debug
+.NOTPARALLEL: release
+.PHONY: release
 release: CFLAGS += -g0 -O0
-release: $(OBJPATH)release.lastbuildstate app.exe
+release:app.exe $(OBJPATH)release.lastbuildstate 
 
+.NOTPARALLEL: debug
+.PHONY: debug
 debug: CFLAGS += -g3 -O0
 debug: $(OBJPATH)debug.lastbuildstate app.exe
 
@@ -29,13 +31,13 @@ app.exe: $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)main.o
 $(OBJPATH)main.o: $(SRCPATH)main.c
 	$(CC) $(CFLAGS) -c $(SRCPATH)main.c -o $(OBJPATH)main.o
 
-$(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h
+$(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h $(INCPATH)number.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)io.c -o $(OBJPATH)io.o
 
-$(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h
+$(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h $(INCPATH)number.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)parse.c -o $(OBJPATH)parse.o
 
-$(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h
+$(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h $(INCPATH)number.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)check.c -o $(OBJPATH)check.o
 
 .PHONY: clean
