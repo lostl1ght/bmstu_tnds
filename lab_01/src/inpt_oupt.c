@@ -39,8 +39,13 @@ void output_num(const number_t *num)
     if (num->sign_m == -1)
         printf("-");
     printf("0.");
-    for (size_t i = num->len_m - 1; i != 0; i--)
-        printf("%d", num->mantissa[i]);
-    printf("%d", num->mantissa[0]);
-    printf("e%d", num->exponent);    
+    if (num->len_m > 0)
+    {
+        for (size_t i = num->len_m - 1; i != 0; i--)
+            printf("%d", num->mantissa[i]);
+        printf("%d", num->mantissa[0]);
+        printf("e%d", num->exponent);
+    }
+    else
+        puts("0");
 }
