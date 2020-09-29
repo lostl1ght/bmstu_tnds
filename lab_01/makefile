@@ -23,7 +23,7 @@ $(OBJPATH)debug.lastbuildstate:
 	touch $(OBJPATH)debug.lastbuildstate
 
 
-app.exe: $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)main.o
+app.exe: $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o
 	$(CC) $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)main.o -o app.exe
 
 $(OBJPATH)main.o: $(SRCPATH)main.c
@@ -37,6 +37,9 @@ $(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h $(INCPATH)number.h
 
 $(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h $(INCPATH)number.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)check.c -o $(OBJPATH)check.o
+
+$(OBJPATH)multiply.o: $(SRCPATH)multiply.c $(INCPATH)multiply.h $(INCPATH)number.h
+	$(CC) $(CFLAGS) -c $(SRCPATH)multiply.c -o $(OBJPATH)multiply.o
 
 clean:
 	rm -rf *.exe $(OBJPATH)
