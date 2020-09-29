@@ -42,7 +42,15 @@ size_t multiply_mant(number_t *num1, number_t *num2, number_t *res)
 
         num_carry(num1->len_m, i, arr0);
     }
-    res->len_m = round_mant(arr0, &old_len);    
+    res->len_m = round_mant(arr0, &old_len);
+    for (size_t i = 0; i < res->len_m - 1; i++)
+    {
+        if (arr0[i] > 9)
+        {
+            arr0[i] %= 10; 
+            arr0[i + 1] += 1;
+        }
+    }
     for (size_t i = 0; i < res->len_m; i++)
         res->mantissa[i] = arr0[i];
     return old_len;
