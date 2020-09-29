@@ -9,9 +9,17 @@ int input_str(char str[])
     printf("Input number: ");
     while ((c = getchar()) == '0')
         ;
-    str[0] = c;
-    if (!fgets(str + 1, LEN - 1, stdin))
-        return IO_FAILURE;
+    if (c == '\n' || c == EOF)
+    {
+        str[0] = '0';
+        str[1] = '\0';
+    }
+    else
+    {
+        str[0] = c;
+        if (!fgets(str + 1, LEN - 1, stdin))
+            return IO_FAILURE;
+    }
     return IO_SUCCESS;
 }
 

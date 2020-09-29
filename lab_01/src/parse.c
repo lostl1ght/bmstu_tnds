@@ -6,6 +6,7 @@
 int parse_number(const char str[], number_t *num)
 {
     const char *e_ptr;
+    int zero_flag = 1;
     if (!(e_ptr = strpbrk(str, "Ee")))
         e_ptr = str + strlen(str);
     else
@@ -38,9 +39,20 @@ int parse_number(const char str[], number_t *num)
     else if (*e_ptr == '-')
         num->sign_m = -1;
 
-    if (num->len_m > 0)
+    for (size_t i = 0; i < num->len_m; i++)
+        if (num->mantissa[i] != 0)
+            zero_flag = 0;
+    
+    if (zero_flag)
+    {
+        num->len_m = 1;
+        num->exponent = 0;
+        num->sign_m = 1;
+    }
+
+    if (num->len_m > 1)
         remove_zeros(num);
-    else
+    else if (num->len_m == 0)
     {
         num->mantissa[0] = 1;
         num->len_m = 1;
