@@ -7,10 +7,10 @@
 #define CHECK_MANT_ERROR 3
 #define CHECK_EXP_ERROR 4
 
-int check_str(char str[])
+int check_str(const char str[])
 {
-    char *e_pointer = NULL;
-    char *end;
+    const char *e_pointer = NULL;
+    const char *end;
     size_t e_count;
     if (check_char(str))
         return CHECK_WRONG_CHARACTERS;
@@ -28,7 +28,7 @@ int check_str(char str[])
     return CHECK_SUCCESS;
 }
 
-int check_char(char *p)
+int check_char(const char *p)
 {
     char s[2];
     s[1] = '\0';
@@ -42,7 +42,7 @@ int check_char(char *p)
     return CHECK_SUCCESS;
 }
 
-size_t count_char(char c, char *start, char *end)
+size_t count_char(const char c, const char *start, const char *end)
 {
     size_t count = 0;
     while (start < end)
@@ -54,7 +54,7 @@ size_t count_char(char c, char *start, char *end)
     return count;
 }
 
-size_t count_num(char *start, char *end)
+size_t count_num(const char *start, const char *end)
 {
     size_t count = 0;
     char s[2];
@@ -69,7 +69,7 @@ size_t count_num(char *start, char *end)
     return count;
 }
 
-int check_symb(char *start, char *end, size_t dot_count)
+int check_symb(const char *start, const char *end, const size_t dot_count)
 {
     size_t count;
     size_t count_dt, count_cm;
@@ -92,7 +92,7 @@ int check_symb(char *start, char *end, size_t dot_count)
     return CHECK_SUCCESS;
 }
 
-int check_mantissa(char *str, char *end)
+int check_mantissa(const char *str, const char *end)
 {
     if (!end)
         end = str + strlen(str);
@@ -103,9 +103,9 @@ int check_mantissa(char *str, char *end)
     return CHECK_SUCCESS;
 }
 
-int check_exponent(char *e_pointer)
+int check_exponent(const char *e_pointer)
 {
-    char *end;
+    const char *end;
     e_pointer++;
     if (!(end = strrchr(e_pointer, '\n')))
         end = e_pointer + strlen(e_pointer);
