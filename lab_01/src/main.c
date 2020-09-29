@@ -52,7 +52,11 @@ int main(void)
         return FAILURE;
     }
     
-    res = multiply(&num1, &num2);
+    if (multiply(&num1, &num2, &res))
+    {    
+        puts("Exponent oveflow while multiplying.");
+        return FAILURE;
+    }
 
     output_num(&res);
     

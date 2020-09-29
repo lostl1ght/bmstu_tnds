@@ -1,13 +1,17 @@
 #include "multiply.h"
 
-number_t multiply(number_t *num1, number_t *num2)
+int multiply(number_t *num1, number_t *num2, number_t *res)
 {
     size_t old_len;
-    number_t res = {.len_m = 0, .mantissa = {0}, .exponent = 0};
-    old_len = multiply_mant(num1, num2, &res);
-    res.sign_m = num1->sign_m * num2->sign_m;
-    res.exponent = num1->exponent + num2->exponent + old_len;
-    return res;
+    int check_exp = 1;
+    old_len = multiply_mant(num1, num2, res);
+    res->sign_m = num1->sign_m * num2->sign_m;
+    res->exponent = num1->exponent + num2->exponent + old_len;
+    for (size_t i = 0; i < MAX_EXPONENT; i++)
+        check_exp *= 10;
+    if (res->exponent > check_exp - 1 || res->exponent < -(check_exp - 1))
+        return MLT_FAILURE;
+    return MTL_SUCCESS;
 }
 
 size_t multiply_mant(number_t *num1, number_t *num2, number_t *res)
