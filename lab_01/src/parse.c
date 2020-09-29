@@ -5,34 +5,46 @@
 
 int parse_number(const char str[], number_t *num)
 {
-    const char *p;
-    if (!(p = strpbrk(str, "Ee")))
-        p = str + strlen(str);
+    const char *end_ptr;
+    if (!(end_ptr = strpbrk(str, "Ee")))
+        end_ptr = str + strlen(str);
     else
     {
-        p++;
-        if (sscanf(p, "%d", &num->exponent) != 1)
+        end_ptr++;
+        if (sscanf(end_ptr, "%d", &num->exponent) != 1)
             return PARSE_FAILURE;
-        p--;
+        end_ptr--;
     }
-    p--;
-    while (p != str - 1)
+    end_ptr--;
+    while (end_ptr != str - 1)
     {
-        if (isdigit(*p))
+        if (isdigit(*end_ptr))
         {
-            num->mantissa[num->len_m] = *p - '0';
+            num->mantissa[num->len_m] = *end_ptr - '0';
             num->len_m++;
         }
-        else if (*p == '.' || *p == ',')
+        else if (*end_ptr == '.' || *end_ptr == ',')
             num->exponent -= num->len_m;
-        p--;
+        end_ptr--;
     }
-    p++;
-    if (isdigit(*p) || *p == '+' || *p == '.' || *p == ',')
+
+    end_ptr++;
+    if (isdigit(*end_ptr) || *end_ptr == '+')
         num->sign_m = 1;
-    else if (*p == '-')
+    else if (*end_ptr == '.' || *end_ptr == ',')
+        num->sign_m = 1;
+    else if (*end_ptr == 'e' || *end_ptr == 'E')
+        num->sign_m = 1;
+    else if (*end_ptr == '-')
         num->sign_m = -1;
-    remove_zeros(num);
+
+    if (num->len_m > 0)
+        remove_zeros(num);
+    else
+    {
+        num->mantissa[0] = 1;
+        num->len_m = 1;
+    }
     return PARSE_SUCCESS;
 }
 
