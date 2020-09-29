@@ -89,6 +89,12 @@ int check_mantissa(const char *str, const char *end)
 {
     if (!end)
         end = str + strlen(str);
+    if (str == end || (str + 1 == end && (*str == '.' || *str == ',' || *str == '-' || *str == '+')))
+        return CHECK_FAILURE;
+    if (str + 2 == end && (*(str + 1) == '.' || *(str + 1) == ',') && (*str == '-' || *str == '+'))
+        return CHECK_FAILURE;
+    if (strcmp(str, ".") || strcmp(str, "-") || strcmp(str, "+"))
+        return CHECK_FAILURE;
     if (check_symb(str, end, 1))
         return CHECK_FAILURE;
     if (count_num(str, end) > MAX_MANTISSA)
