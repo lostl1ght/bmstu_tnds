@@ -1,3 +1,8 @@
+/**
+ * @file number.h
+ * @brief Файл со структурой числа
+ * 
+ */
 #ifndef NUMBER_H
 #define NUMBER_H
 
