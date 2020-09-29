@@ -1,10 +1,10 @@
 #define _USEMINGW_ANSI_STDIO 1
 #include <stdio.h>
-#include "../inc/number.h"
-#include "../inc/io.h"
-#include "../inc/parse.h"
-#include "../inc/check.h"
-#include "../inc/multiply.h"
+#include "number.h"
+#include "inpt_oupt.h"
+#include "parse.h"
+#include "checking.h"
+#include "multiply.h"
 
 #define SUCCESS 0
 #define FAILURE 1
@@ -18,7 +18,7 @@ int main(void)
     int rc;
     number_t num1 = {.len_m = 0, .mantissa = {0}, .exponent = 0};
     number_t num2 = {.len_m = 0, .mantissa = {0}, .exponent = 0};
-    // number_t res = {.len_m = 0, .mantissa = {0}, .exponent = 0};
+    number_t res;
     if (input_str(str))
     {
         puts("Cannot read number. Try again.");
@@ -43,7 +43,7 @@ int main(void)
         return FAILURE;
     }
     rc = switch_func(check_str(str));
-    if (!rc)
+    if (rc)
         return rc;
       
     if (parse_number(str, &num2))
@@ -51,8 +51,10 @@ int main(void)
         puts("Parsing failed. Try again");
         return FAILURE;
     }
+    
+    res = multiply(&num1, &num2);
 
-    //compute
+    output_num(&res);
     
     return SUCCESS;
 }

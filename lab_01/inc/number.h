@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#define MAX_MANTISSA 5
-#define MAX_EXPONENT 2
+#define MAX_MANTISSA 30
+#define MAX_EXPONENT 5
 // mantissa + exponent  + (2 signs + . + E + "\n" + "\0" = 7) + 3 to check
 #define LEN MAX_MANTISSA + MAX_EXPONENT + 7 + 3
 

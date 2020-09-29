@@ -1,11 +1,23 @@
 #include "multiply.h"
 
-void multiply_mant(number_t *num1, number_t *num2, int arr0[])
+number_t multiply(number_t *num1, number_t *num2)
 {
+    size_t old_len;
+    number_t res = {.len_m = 0, .mantissa = {0}, .exponent = 0};
+    old_len = multiply_mant(num1, num2, &res);
+    res.sign_m = num1->sign_m * num2->sign_m;
+    res.exponent = num1->exponent + num2->exponent + old_len;
+    return res;
+}
+
+size_t multiply_mant(number_t *num1, number_t *num2, number_t *res)
+{
+    int arr0[MAX_MANTISSA * 2] = {0};
     int arr1[MAX_MANTISSA * 2] = {0};
+    size_t old_len;
     if (num2->len_m > num1->len_m)
     {
-        number_t *tmp= num1;
+        number_t *tmp = num1;
         num1 = num2;
         num2 = tmp;
     }
@@ -23,9 +35,13 @@ void multiply_mant(number_t *num1, number_t *num2, int arr0[])
             arr0[j] += arr1[j];
         for (size_t j = 0; j < num1->len_m + i; j++)
             arr1[j] = 0;
-        
+
         num_carry(num1->len_m, i, arr0);
     }
+    res->len_m = round_mant(arr0, &old_len);    
+    for (size_t i = 0; i < res->len_m; i++)
+        res->mantissa[i] = arr0[i];
+    return old_len;
 }
 
 void num_carry(size_t len_m, size_t i, int arr0[])
@@ -35,4 +51,27 @@ void num_carry(size_t len_m, size_t i, int arr0[])
         arr0[j + 1] += arr0[j] / 10;
         arr0[j] %= 10;
     }
+}
+
+size_t round_mant(int arr[], size_t *old_len)
+{
+    size_t len = MAX_MANTISSA * 2;
+    while (arr[len - 1] == 0 && len != 1)
+        len--;
+    *old_len = len;
+    if (len > MAX_MANTISSA)
+    {
+        size_t reps = len - MAX_MANTISSA;
+        for (size_t i = 0; i < reps; i++)
+        {
+            size_t j;
+            if (arr[0] > 4)
+                arr[1]++;
+            for (j = 0; j < len - 1; j++)
+                arr[j] = arr[j + 1];
+            arr[j] = 0;
+            len--;
+        }
+    }
+    return len;
 }
