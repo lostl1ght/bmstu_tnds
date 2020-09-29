@@ -6,6 +6,7 @@
 int input_str(char str[])
 {
     char c;
+    printf("              1234567890123456789012345678901234567890\n");
     printf("Input number: ");
     while ((c = getchar()) == '0')
         ;
