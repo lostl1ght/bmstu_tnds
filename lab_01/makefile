@@ -26,7 +26,7 @@ $(OBJPATH)debug.lastbuildstate:
 app.exe: $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o
 	$(CC) $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o -o app.exe
 
-$(OBJPATH)main.o: $(SRCPATH)main.c
+$(OBJPATH)main.o: $(SRCPATH)main.c $(INCPATH)number.h $(INCPATH)io.h $(INCPATH)parse.h $(INCPATH)check.h $(INCPATH)multiply.h
 	$(CC) $(CFLAGS) -c $(SRCPATH)main.c -o $(OBJPATH)main.o
 
 $(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h $(INCPATH)number.h
