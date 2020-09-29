@@ -7,10 +7,10 @@ CFLAGS := -std=c99 -Wall -Wextra -Wpedantic -Werror
 .PHONY: release debug clean
 
 release: CFLAGS += -g0 -O0
-release: $(OBJPATH)release.lastbuildstate app.exe 
+release: $(OBJPATH) $(OBJPATH)release.lastbuildstate app.exe 
 
 debug: CFLAGS += -g3 -O0
-debug: $(OBJPATH)debug.lastbuildstate app.exe
+debug: $(OBJPATH) $(OBJPATH)debug.lastbuildstate app.exe
 
 $(OBJPATH)release.lastbuildstate:
 	rm -rf *.exe $(OBJPATH)
@@ -22,24 +22,26 @@ $(OBJPATH)debug.lastbuildstate:
 	mkdir $(OBJPATH)
 	touch $(OBJPATH)debug.lastbuildstate
 
+$(OBJPATH):
+	mkdir $(OBJPATH)
 
 app.exe: $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o
-	$(CC) $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o -o app.exe
+	$(CC) $^ -o app.exe
 
 $(OBJPATH)main.o: $(SRCPATH)main.c $(INCPATH)number.h $(INCPATH)io.h $(INCPATH)parse.h $(INCPATH)check.h $(INCPATH)multiply.h
-	$(CC) $(CFLAGS) -c $(SRCPATH)main.c -o $(OBJPATH)main.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $(SRCPATH)io.c -o $(OBJPATH)io.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $(SRCPATH)parse.c -o $(OBJPATH)parse.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $(SRCPATH)check.c -o $(OBJPATH)check.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)multiply.o: $(SRCPATH)multiply.c $(INCPATH)multiply.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $(SRCPATH)multiply.c -o $(OBJPATH)multiply.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf *.exe $(OBJPATH)
