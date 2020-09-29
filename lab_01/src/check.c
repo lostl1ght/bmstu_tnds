@@ -1,12 +1,6 @@
 #include "../inc/check.h"
 #include "../inc/number.h"
 
-#define CHECK_SUCCESS 0
-#define CHECK_FAILURE 1
-#define CHECK_WRONG_CHARACTERS 2
-#define CHECK_MANT_ERROR 3
-#define CHECK_EXP_ERROR 4
-
 int check_str(const char str[])
 {
     const char *e_pointer = NULL;
