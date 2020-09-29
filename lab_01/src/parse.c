@@ -53,10 +53,7 @@ int parse_number(const char str[], number_t *num)
     if (num->len_m > 1)
         remove_zeros(num);
     else if (num->len_m == 0)
-    {
-        num->mantissa[0] = 1;
-        num->len_m = 1;
-    }
+        return PARSE_FAILURE;
     return PARSE_SUCCESS;
 }
 
