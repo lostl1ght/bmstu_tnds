@@ -3,21 +3,21 @@
 
 int check_str(const char str[])
 {
-    const char *e_pointer = NULL;
+    const char *e_ptr = NULL;
     const char *end;
     size_t e_count;
     if (check_char(str))
         return CHECK_WRONG_CHARACTERS;
     end = str + strlen(str); 
     if ((e_count = count_char('E', str, end)))
-        e_pointer = strrchr(str, 'E');
+        e_ptr = strrchr(str, 'E');
     if ((e_count += count_char('e', str, end)))
-        e_pointer = strrchr(str, 'e');
+        e_ptr = strrchr(str, 'e');
     if (e_count > 1)
         return CHECK_WRONG_CHARACTERS;
-    if (check_mantissa(str, e_pointer))
+    if (check_mantissa(str, e_ptr))
         return CHECK_MANT_ERROR;
-    if (e_pointer && check_exponent(e_pointer))
+    if (e_ptr && check_exponent(e_ptr))
         return CHECK_EXP_ERROR;
     return CHECK_SUCCESS;
 }
@@ -97,15 +97,15 @@ int check_mantissa(const char *str, const char *end)
     return CHECK_SUCCESS;
 }
 
-int check_exponent(const char *e_pointer)
+int check_exponent(const char *e_ptr)
 {
     const char *end;
-    e_pointer++;
-    if (!(end = strrchr(e_pointer, '\n')))
-        end = e_pointer + strlen(e_pointer);
-    if (check_symb(e_pointer, end, 0))
+    e_ptr++;
+    if (!(end = strrchr(e_ptr, '\n')))
+        end = e_ptr + strlen(e_ptr);
+    if (check_symb(e_ptr, end, 0))
         return CHECK_FAILURE;
-    if (count_num(e_pointer, end) > MAX_EXPONENT)
+    if (count_num(e_ptr, end) > MAX_EXPONENT)
         return CHECK_FAILURE;
     return CHECK_SUCCESS;
 }

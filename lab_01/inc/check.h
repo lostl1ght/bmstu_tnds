@@ -15,6 +15,6 @@ size_t count_char(const char c, const char *start, const char *end);
 size_t count_num(const char *start, const char *end);
 int check_symb(const char *start, const char *end, const size_t dot_count);
 int check_mantissa(const char *str, const char *end);
-int check_exponent(const char *e_pointer);
+int check_exponent(const char *e_ptr);
 
 #endif
