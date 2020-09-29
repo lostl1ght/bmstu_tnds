@@ -4,10 +4,13 @@
 #include "../inc/io.h"
 #include "../inc/parse.h"
 #include "../inc/check.h"
+#include "../inc/multiply.h"
 
 #define SUCCESS 0
 #define FAILURE 1
 #define UNKNOWN -1
+
+int switch_func(int rc);
 
 int main(void)
 {
@@ -21,53 +24,28 @@ int main(void)
         puts("Cannot read number. Try again.");
         return FAILURE;
     }
-    rc = check_str(str);
-    switch (rc)
-    {
-        case CHECK_SUCCESS:
-            break;
-        case CHECK_WRONG_CHARACTERS:
-            puts("Invalid characters input. Try again.");
-            return CHECK_WRONG_CHARACTERS;
-        case CHECK_MANT_ERROR:
-            puts("Invalid characters in mantissa. Try again.");
-            return CHECK_MANT_ERROR;
-        case CHECK_EXP_ERROR:
-            puts("Invalid characters in exponent. Try again.");
-            return CHECK_EXP_ERROR;
-        default:
-            puts("Unknown error. Try again.");
-            return UNKNOWN;
-    }  
+    rc = switch_func(check_str(str));
+    if (rc)
+        return rc;
+     
     if (parse_number(str, &num1))
     {
         puts("Parsing failed. Try again");
         return FAILURE;
     }
 
+    // output_check(&num1);
+    // return 0;
+
     if (input_str(str))
     {
         puts("Cannot read number. Try again.");
         return FAILURE;
     }
-    rc = check_str(str);
-    switch (rc)
-    {
-        case CHECK_SUCCESS:
-            break;
-        case CHECK_WRONG_CHARACTERS:
-            puts("Invalid characters input. Try again.");
-            return CHECK_WRONG_CHARACTERS;
-        case CHECK_MANT_ERROR:
-            puts("Invalid characters in mantissa. Try again.");
-            return CHECK_MANT_ERROR;
-        case CHECK_EXP_ERROR:
-            puts("Invalid characters in exponent. Try again.");
-            return CHECK_EXP_ERROR;
-        default:
-            puts("Unknown error. Try again.");
-            return UNKNOWN;
-    }  
+    rc = switch_func(check_str(str));
+    if (!rc)
+        return rc;
+      
     if (parse_number(str, &num2))
     {
         puts("Parsing failed. Try again");
@@ -77,4 +55,26 @@ int main(void)
     //compute
     
     return SUCCESS;
+}
+
+int switch_func(int rc)
+{
+    switch (rc)
+    {
+        case CHECK_SUCCESS:
+            break;
+        case CHECK_WRONG_CHARACTERS:
+            puts("Invalid characters input. Try again.");
+            break;
+        case CHECK_MANT_ERROR:
+            puts("Invalid characters in mantissa OR it is too long. Try again.");
+            break;
+        case CHECK_EXP_ERROR:
+            puts("Invalid characters in exponent OR it is too long. Try again.");
+            break;
+        default:
+            puts("Unknown error. Try again.");
+            break;
+    }
+    return rc;
 }
