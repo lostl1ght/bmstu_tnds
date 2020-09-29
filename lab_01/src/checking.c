@@ -1,4 +1,4 @@
-#include "../inc/check.h"
+#include "../inc/checking.h"
 
 int check_str(const char str[])
 {

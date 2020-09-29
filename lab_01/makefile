@@ -3,6 +3,9 @@ OBJPATH := ./out/
 INCPATH := ./inc/
 SRCPATH := ./src/
 CFLAGS := -std=c99 -Wall -Wextra -Wpedantic -Werror
+OBJS := $(OBJPATH)main.o $(OBJPATH)inpt_oupt.o $(OBJPATH)parse.o $(OBJPATH)checking.o $(OBJPATH)multiply.o
+# SRCS := $(SRCPATH)main.c $(SRCPATH)inpt_oupt.c $(SRCPATH)parse.c $(SRCPATH)checking.c $(SRCPATH)multiply.c
+# DS := $(OBJPATH)main.d $(OBJPATH)inpt_oupt.d $(OBJPATH)parse.d $(OBJPATH)checking.d $(OBJPATH)multiply.d
 .NOTPARALLEL: release debug
 .PHONY: release debug clean
 
@@ -25,23 +28,31 @@ $(OBJPATH)debug.lastbuildstate:
 $(OBJPATH):
 	mkdir $(OBJPATH)
 
-app.exe: $(OBJPATH)main.o $(OBJPATH)io.o $(OBJPATH)parse.o $(OBJPATH)check.o $(OBJPATH)multiply.o
-	$(CC) $^ -o app.exe
+app.exe: $(OBJS)
+	$(CC) -I$(INCPATH) $^ -o app.exe
 
-$(OBJPATH)main.o: $(SRCPATH)main.c $(INCPATH)number.h $(INCPATH)io.h $(INCPATH)parse.h $(INCPATH)check.h $(INCPATH)multiply.h
-	$(CC) $(CFLAGS) -c $< -o $@
+# %.o : %.c
+# 	$(CC) $(CFLAGS) -c $<
 
-$(OBJPATH)io.o: $(SRCPATH)io.c $(INCPATH)io.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $< -o $@
+# %.d : %.c
+# 	$(CC) -MM $< > $@
+
+# include $(DS)
+
+$(OBJPATH)main.o: $(SRCPATH)main.c $(INCPATH)number.h $(INCPATH)inpt_oupt.h $(INCPATH)parse.h $(INCPATH)checking.h $(INCPATH)multiply.h
+	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
+
+$(OBJPATH)inpt_oupt.o: $(SRCPATH)inpt_oupt.c $(INCPATH)inpt_oupt.h $(INCPATH)number.h
+	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)parse.o: $(SRCPATH)parse.c $(INCPATH)parse.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
-$(OBJPATH)check.o: $(SRCPATH)check.c $(INCPATH)check.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJPATH)checking.o: $(SRCPATH)checking.c $(INCPATH)checking.h $(INCPATH)number.h
+	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
 $(OBJPATH)multiply.o: $(SRCPATH)multiply.c $(INCPATH)multiply.h $(INCPATH)number.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf *.exe $(OBJPATH)

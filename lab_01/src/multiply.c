@@ -1,4 +1,4 @@
-#include "../inc/multiply.h"
+#include "multiply.h"
 
 void multiply_mant(number_t *num1, number_t *num2, int arr0[])
 {

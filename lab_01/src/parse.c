@@ -1,4 +1,4 @@
-#include "../inc/parse.h"
+#include "parse.h"
 
 #define PARSE_SUCCESS 0
 #define PARSE_FAILURE 1

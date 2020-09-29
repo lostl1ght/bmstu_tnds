@@ -2,7 +2,7 @@
 #define CHECK_H
 
 #include <string.h>
-#include "../inc/number.h"
+#include "number.h"
 
 #define CHECK_SUCCESS 0
 #define CHECK_FAILURE 1

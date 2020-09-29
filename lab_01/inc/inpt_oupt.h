@@ -1,5 +1,5 @@
-#ifndef IO_H
-#define IO_H
+#ifndef INPT_OUPT_H
+#define INPT_OUPT_H
 
 #include <stdio.h>
 #include "number.h"

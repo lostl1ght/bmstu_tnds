@@ -1,4 +1,4 @@
-#include "../inc/io.h"
+#include "inpt_oupt.h"
 
 #define IO_SUCCESS 0
 #define IO_FAILURE 1
