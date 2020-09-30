@@ -18,7 +18,7 @@ int main(void)
     int rc;
     number_t num1 = {.len_m = 0, .mantissa = {0}, .exponent = 0};
     number_t num2 = {.len_m = 0, .mantissa = {0}, .exponent = 0};
-    number_t res;
+    number_t res = {.len_m = 0, .mantissa = {0}, .exponent = 0};
     if (input_str(str))
     {
         puts("Cannot read number. Try again.");

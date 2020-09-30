@@ -11,6 +11,13 @@ int multiply(number_t *num1, number_t *num2, number_t *res)
         check_exp *= 10;
     if (res->exponent > check_exp - 1 || res->exponent < -(check_exp - 1))
         return MLT_FAILURE;
+    if (res->len_m > 0)
+        while (res->mantissa[0] == 0)
+        {
+            for (size_t i = 0; i < res->len_m - 1; i++)
+                res->mantissa[i] = res->mantissa[i + 1];
+            res->len_m--;
+        }
     return MTL_SUCCESS;
 }
 
@@ -18,7 +25,7 @@ size_t multiply_mant(number_t *num1, number_t *num2, number_t *res)
 {
     int arr0[MAX_MANTISSA * 2] = {0};
     int arr1[MAX_MANTISSA * 2] = {0};
-    size_t old_len;
+    size_t old_len = 0;
     if (num2->len_m > num1->len_m)
     {
         number_t *tmp = num1;
@@ -71,7 +78,7 @@ size_t round_mant(int arr[], size_t *old_len)
     size_t len = MAX_MANTISSA * 2;
     while (arr[len - 1] == 0 && len != 1)
         len--;
-    if (arr[0] == 0)
+    if (arr[0] == 0 && len == 1)
         len--;
     *old_len = len;
     if (len > MAX_MANTISSA)
