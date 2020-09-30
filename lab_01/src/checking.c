@@ -1,18 +1,18 @@
-#include "../inc/checking.h"
+#include "checking.h"
 
 int check_str(const char str[])
 {
     const char *e_ptr = NULL;
     const char *end;
-    size_t e_count;
+    size_t e_count1, e_count2;
     if (check_char(str))
         return CHECK_WRONG_CHARACTERS;
     end = str + strlen(str); 
-    if ((e_count = count_char('E', str, end)))
+    if ((e_count1 = count_char('E', str, end)))
         e_ptr = strrchr(str, 'E');
-    if ((e_count += count_char('e', str, end)))
+    else if ((e_count2 = count_char('e', str, end)))
         e_ptr = strrchr(str, 'e');
-    if (e_count > 1)
+    if (e_count1 + e_count2 > 1)
         return CHECK_WRONG_CHARACTERS;
     if (check_mantissa(str, e_ptr))
         return CHECK_MANT_ERROR;
@@ -93,7 +93,7 @@ int check_mantissa(const char *str, const char *end)
         return CHECK_FAILURE;
     if (str + 2 == end && (*(str + 1) == '.' || *(str + 1) == ',') && (*str == '-' || *str == '+'))
         return CHECK_FAILURE;
-    if (strcmp(str, ".") || strcmp(str, "-") || strcmp(str, "+"))
+    if (!strcmp(str, ".") || !strcmp(str, "-") || !strcmp(str, "+"))
         return CHECK_FAILURE;
     if (check_symb(str, end, 1))
         return CHECK_FAILURE;
