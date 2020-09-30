@@ -48,5 +48,5 @@ void output_num(const number_t *num)
         printf("e%d", num->exponent);
     }
     else
-        puts("0");
+        puts("0e1");
 }

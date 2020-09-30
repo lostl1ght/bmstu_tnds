@@ -10,8 +10,8 @@
 
 #define MAX_MANTISSA 30
 #define MAX_EXPONENT 5
-// mantissa + exponent  + (2 signs + . + E + "\n" + "\0" = 7) + 3 to check
-#define LEN MAX_MANTISSA + MAX_EXPONENT + 7 + 3
+// mantissa + exponent  + (2 signs + . + E + "\n" + "\0" = 6) + 3 to check
+#define LEN MAX_MANTISSA + MAX_EXPONENT + 6 + 3
 
 typedef struct number
 {
