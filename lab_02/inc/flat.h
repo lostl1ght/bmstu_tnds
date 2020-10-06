@@ -1,14 +1,19 @@
 #ifndef FLAT_H
 #define FLAT_H
 
+#include <stdio.h>
+
 #define MAXN 32
+
+#define FLT_SUCCESS 0
+#define FLT_FAILURE 1
 
 typedef struct flat
 {
     char adr[MAXN];
-    int area;
+    float area;
     int price_per_m2;
-    int price;
+    double price;
     int room_cnt;
     char is_new;
     union
@@ -18,10 +23,12 @@ typedef struct flat
         {
             int year;
             int owner_cnt;
-            int last_resident_cnt;
+            int lst_rsdnt_cnt;
             char were_anmls;
         } old;
     } type;
 } flat_t;
+
+int input_flat(flat_t *flat);
 
 #endif
