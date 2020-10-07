@@ -19,13 +19,13 @@ int input_flat(flat_t *flat)
     printf("Enter price per square meter: ");
     if (scanf("%d%c", &flat->price_per_m2, buf) != 2)
         return FLT_FAILURE;
-    printf("Is it a new flat? (y/n)\n");
+    printf("Is it a new flat? (y/n): ");
     if (!fgets(buf, sizeof buf, stdin))
         return FLT_FAILURE;
     if (*buf == 'y')
     {
         flat->is_new = 1;
-        printf("Is it trimmed? (y/n)\n");
+        printf("Is it trimmed? (y/n): ");
         if (!fgets(buf, sizeof buf, stdin))
             return FLT_FAILURE;
         if (*buf == 'y')
@@ -47,7 +47,7 @@ int input_flat(flat_t *flat)
         printf("Enter number of last residents: ");
         if (scanf("%d%c", &flat->type.old.lst_rsdnt_cnt, buf) != 2)
             return FLT_FAILURE;
-        printf("Did they have any enimals? (y/n)\n");
+        printf("Did they have any animals? (y/n): ");
         if (!fgets(buf, sizeof buf, stdin))
             return FLT_FAILURE;
         if (*buf == 'y')
@@ -59,6 +59,7 @@ int input_flat(flat_t *flat)
     }
     else
         return FLT_FAILURE;
+    puts("");
     return FLT_SUCCESS;
 }
 
