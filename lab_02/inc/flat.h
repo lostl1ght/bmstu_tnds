@@ -2,33 +2,40 @@
 #define FLAT_H
 
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define MAXN 32
 
 #define FLT_SUCCESS 0
 #define FLT_FAILURE 1
 
+typedef struct old
+{
+    int year;
+    int owner_cnt;
+    int lst_rsdnt_cnt;
+    bool were_anmls;
+} old_t;
+
+typedef union type
+{
+    bool is_trim;
+    old_t old; 
+} type_t;
+
 typedef struct flat
 {
     char adr[MAXN];
-    float area;
+    int area;
     int price_per_m2;
-    double price;
+    long price;
     int room_cnt;
-    char is_new;
-    union
-    {
-        char is_trim;
-        struct
-        {
-            int year;
-            int owner_cnt;
-            int lst_rsdnt_cnt;
-            char were_anmls;
-        } old;
-    } type;
+    bool is_new;
+    type_t type;
 } flat_t;
 
 int input_flat(flat_t *flat);
+void output_flat(flat_t *flat);
 
 #endif
