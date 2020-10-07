@@ -21,7 +21,7 @@ int main(void)
         printf("Wrong input!");
         return READ_FAILURE;
     }
-    output_flat_array(flats, flt_cnt);
+    output_flat_array(flats, flt_cnt, output_flat);
     free(flats);
     return SUCCESS;
 }

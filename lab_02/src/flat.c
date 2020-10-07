@@ -98,8 +98,8 @@ int input_flat_array(flat_t **flats, size_t flt_cnt)
     return FLT_SUCCESS;
 }
 
-void output_flat_array(flat_t *flats, size_t flt_cnt)
+void output_flat_array(flat_t *flats, size_t flt_cnt, void output(flat_t *))
 {
     for (size_t i = 0; i < flt_cnt; i++)
-        output_flat(flats + i); 
+        output(flats + i);
 }

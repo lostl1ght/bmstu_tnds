@@ -39,6 +39,6 @@ typedef struct flat
 int input_flat(flat_t *flat);
 void output_flat(flat_t *flat);
 int input_flat_array(flat_t **flats, size_t flt_cnt);
-void output_flat_array(flat_t *flats, size_t flt_cnt);
+void output_flat_array(flat_t *flats, size_t flt_cnt, void output(flat_t *));
 
 #endif
