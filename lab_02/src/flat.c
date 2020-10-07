@@ -80,3 +80,20 @@ void output_flat(flat_t *flat)
         printf("They %s animals.\n", flat->type.old.were_anmls ? "had" : "didn't have");
     }
 }
+
+int input_flat_array(flat_t *flats, size_t flt_cnt)
+{
+    flat_t flat;
+    if (!flt_cnt)
+        return FLT_FAILURE;
+    flats = malloc(flt_cnt * sizeof flat);
+    if (!flats)
+        return FLT_FAILURE;
+    for (size_t i = 0; i < flt_cnt; i++)
+    {
+        if (input_flat(&flat))
+            return FLT_FAILURE;
+        flats[i] = flat;
+    }
+    return FLT_SUCCESS;
+}
