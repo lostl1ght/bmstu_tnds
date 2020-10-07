@@ -81,19 +81,25 @@ void output_flat(flat_t *flat)
     }
 }
 
-int input_flat_array(flat_t *flats, size_t flt_cnt)
+int input_flat_array(flat_t **flats, size_t flt_cnt)
 {
     flat_t flat;
     if (!flt_cnt)
         return FLT_FAILURE;
-    flats = malloc(flt_cnt * sizeof flat);
+    *flats = malloc(flt_cnt * sizeof flat);
     if (!flats)
         return FLT_FAILURE;
     for (size_t i = 0; i < flt_cnt; i++)
     {
         if (input_flat(&flat))
             return FLT_FAILURE;
-        flats[i] = flat;
+        *(*flats + i) = flat;
     }
     return FLT_SUCCESS;
+}
+
+void output_flat_array(flat_t *flats, size_t flt_cnt)
+{
+    for (size_t i = 0; i < flt_cnt; i++)
+        output_flat(flats + i); 
 }
