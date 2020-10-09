@@ -1,62 +1,68 @@
-CC := gcc
-OUTPATH := ./out/
-INCPATH := ./inc/
-SRCPATH := ./src/
-UNIPATH := ./unit_tests/
-CFLAGS := -std=c99 -Wall -Wextra -Wpedantic -Werror
+CC = gcc
+OUTPATH = ./out/
+INCPATH = ./inc/
+SRCPATH = ./src/
+UNIPATH = ./unit_tests/
+CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -O0
 
-SRCS := $(wildcard $(SRCPATH)*.c)
+SRCS = $(wildcard $(SRCPATH)*.c)
 
-.NOTPARALLEL: release debug
-.PHONY: release debug clean dir d
+# В этой строке указываются юниты для тестирования. Все остальное работает автоматически.
+USRCSF = # $(SRCPATH)sorting.c $(SRCPATH)filtering.c
+USRCSC = $(wildcard $(UNIPATH)*.c)
 
-release: CFLAGS += -g0 -O0
+.NOTPARALLEL: release debug func
+.PHONY: release debug clean dir deps func unit
+
+release: CFLAGS += -g0
 release: $(OUTPATH)release.lastbuildstate app.exe
 
-debug: CFLAGS += -g3 -O0
+debug: CFLAGS += -g3
 debug: $(OUTPATH)debug.lastbuildstate app.exe
 
-app.exe: $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
-	$(CC) $^ -o app.exe
+func: CFLAGS += -g0 --coverage
+func: $(OUTPATH)func.lastbuildstate app.exe
+	cd func_tests && ./all_tests.cmd
+	gcov $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
+	mv *.gcov $(OUTPATH)
 
-unit_tests.exe: check_main.o
-	$(CC) $^ -o $@
+unit: unit_tests.exe
+	drmemory -batch -lib_blacklist "*" -- unit_tests.exe
+
+app.exe: $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
+	$(CC) $(CFLAGS) $^ -o app.exe
+
+unit_tests.exe: $(USRCSF:$(SRCPATH)%.c=$(OUTPATH)%.o) $(USRCSC:$(UNIPATH)%.c=$(OUTPATH)%.o)
+	$(CC) $(CFLAGS) $^ -o $@ -lcheck
 
 $(OUTPATH)%.o: $(SRCPATH)%.c | dir
 	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
 $(OUTPATH)%.o: $(UNIPATH)%.c | dir
-	$(CC) -I$(UNIPATH) $(CFLAGS) -c $< -o $@
+	$(CC) -I$(UNIPATH) -I$(INCPATH) $(CFLAGS) -c $< -o $@
 
 $(OUTPATH)%.d: $(SRCPATH)%.c | dir
 	$(CC) -I$(INCPATH) -MM -MT $(patsubst %.d,%.o,$@) $< > $@
 
 $(OUTPATH)%.d: $(UNIPATH)%.c | dir
-	$(CC) -I$(UNIPATH) -MM -MT $(patsubst %.d,%.o,$@) $< > $@
+	$(CC) -I$(UNIPATH) -I$(INCPATH) -MM -MT $(patsubst %.d,%.o,$@) $< > $@
 
 ifeq ($(MAKECMDGOALS),)
 include $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.d)
 else
-ifeq ($(MAKECMDGOALS), release)
+ifeq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), release debug app.exe func))
 include $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.d)
 else
-ifeq ($(MAKECMDGOALS), debug)
-include $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.d)
-else
-ifeq ($(MAKECMDGOALS), app.exe)
-include $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.d)
-endif
+ifeq ($(MAKECMDGOALS), $(filter $(MAKECMDGOALS), unit unit_tests.exe))
+include $(USRCSF:$(SRCPATH)%.c=$(OUTPATH)%.d)
+include $(USRCSC:$(UNIPATH)%.c=$(OUTPATH)%.d)
 endif
 endif
 endif
 
-$(OUTPATH)release.lastbuildstate: | dir
-	rm -rf *.exe $(OUTPATH)*.o $(OUTPATH)debug.lastbuildstate
-	touch $(OUTPATH)release.lastbuildstate
-
-$(OUTPATH)debug.lastbuildstate: | dir
-	rm -rf *.exe $(OUTPATH)*.o $(OUTPATH)release.lastbuildstate
-	touch $(OUTPATH)debug.lastbuildstate
+$(OUTPATH)%.lastbuildstate: | dir
+	rm -rf *.exe $(OUTPATH)*.o $(OUTPATH)*.gcov $(OUTPATH)*.gcda $(OUTPATH)*.gcno $(OUTPATH)*.lastbuildstate
+	touch $@
 
 dir:
 	mkdir -p $(OUTPATH)
