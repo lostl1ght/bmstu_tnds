@@ -45,5 +45,7 @@ void write_in_file(FILE *f, flat_t *flats, int count);
 int output_table(FILE *f);
 int get_array_from_file(FILE *f, flat_t *flats, int count);
 int get_from_file(FILE *f, flat_t *flat);
+void draw_table(flat_t *flats, int count);
+void output_line(flat_t *flat);
 
 #endif

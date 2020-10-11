@@ -155,11 +155,7 @@ int output_table(FILE *f)
         free(flats);
         return FLT_FAILURE;
     }
-    for (int i = 0; i < count; i++)
-    {
-        readable_output(flats + i);
-        puts("");
-    }
+    draw_table(flats, count);
     free(flats);
     return FLT_SUCCESS;
 }
@@ -205,4 +201,34 @@ int get_from_file(FILE *f, flat_t *flat)
             return FLT_FAILURE;
     }
     return FLT_SUCCESS;
+}
+
+void draw_table(flat_t *flats, int count)
+{
+    printf("_______________________________________________"
+           "____________________________________________\n");
+    printf("|%16s|%5s|%8s|%5s|%4s|%7s|%8s|%6s|%14s|%7s|\n",
+           "adress", "area", "$ per m2", "rooms", "new", "trimmed",
+           "year", "owners", "last residents", "animals");
+    printf("|________________|_____|________|_____|____|_______"
+           "|________|______|______________|_______|\n");
+    for (int i = 0; i < count; i++)
+        output_line(flats + i);
+    printf("|________________|_____|________|_____|____|_______"
+           "|________|______|______________|_______|\n");
+}
+
+void output_line(flat_t *flat)
+{
+    printf("|%16s|%5d|%8d|%5d|",
+           flat->adr, flat->area, flat->price_per_m2,
+           flat->room_cnt);
+    if (flat->is_new)
+        printf("%4s|%7s|       -|     -|             -|      -|\n", "yes",
+               flat->type.is_trim ? "true" : "false");
+    else
+        printf("%4s|      -|%8d|%6d|%14d|%7s|\n", "no",
+               flat->type.old.year, flat->type.old.owner_cnt,
+               flat->type.old.lst_rsdnt_cnt,
+               flat->type.old.were_anmls ? "yes" : "no");
 }
