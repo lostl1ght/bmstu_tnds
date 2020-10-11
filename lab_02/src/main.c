@@ -34,6 +34,7 @@ int main(int argc, char **argv)
             puts("Failure during input.");
             return INPUT_FAILURE;
         }
+        fclose(f);
     }
 
     return SUCCESS;
