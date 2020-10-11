@@ -38,9 +38,12 @@ typedef struct flat
 
 int get_from_stream(flat_t *flat);
 void readable_output(flat_t *flat);
-int input_flats_to_file(FILE *f);
+int input_to_file(FILE *f);
 void simple_output(FILE *f, flat_t *flat);
-int get_flat_array(flat_t *flats, int count);
+int get_array_from_stream(flat_t *flats, int count);
 void write_in_file(FILE *f, flat_t *flats, int count);
+int output_table(FILE *f);
+int get_array_from_file(FILE *f, flat_t *flats, int count);
+int get_from_file(FILE *f, flat_t *flat);
 
 #endif

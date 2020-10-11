@@ -24,7 +24,7 @@ int get_from_stream(flat_t *flat)
         return FLT_FAILURE;
     if (*buf == 'y')
     {
-        flat->is_new = 1;
+        flat->is_new = true;
         printf("Is it trimmed? (y/n): ");
         if (!fgets(buf, sizeof buf, stdin))
             return FLT_FAILURE;
@@ -37,7 +37,7 @@ int get_from_stream(flat_t *flat)
     }
     else if (*buf == 'n')
     {
-        flat->is_new = 0;
+        flat->is_new = false;
         printf("Enter year of construction: ");
         if (scanf("%d", &flat->type.old.year) != 1)
             return FLT_FAILURE;
@@ -81,7 +81,7 @@ void readable_output(flat_t *flat)
     }
 }
 
-int get_flat_array(flat_t *flats, int count)
+int get_array_from_stream(flat_t *flats, int count)
 {
     flat_t flat;
     if (!count)
@@ -97,7 +97,7 @@ int get_flat_array(flat_t *flats, int count)
     return FLT_SUCCESS;
 }
 
-int input_flats_to_file(FILE *f)
+int input_to_file(FILE *f)
 {
     char buf[3];
     int count;
@@ -108,7 +108,7 @@ int input_flats_to_file(FILE *f)
     flats = malloc(count * sizeof(flat_t));
     if (!flats)
         return FLT_FAILURE;
-    if (get_flat_array(flats, count))
+    if (get_array_from_stream(flats, count))
     {
         free(flats);
         return FLT_FAILURE;
@@ -141,4 +141,69 @@ void simple_output(FILE *f, flat_t *flat)
         fprintf(f, "%d\n", flat->type.old.lst_rsdnt_cnt);
         fprintf(f, "%d\n", flat->type.old.were_anmls);
     }
+}
+
+int output_table(FILE *f)
+{
+    int count;
+    char buf[3];
+    flat_t *flats;
+    if (fscanf(f, "%d%c", &count, buf) != 2 || count < 1)
+        return FLT_FAILURE;
+    flats = malloc(count * sizeof(flat_t));
+    if (get_array_from_file(f, flats, count))
+    {
+        free(flats);
+        return FLT_FAILURE;
+    }
+    for (int i = 0; i < count; i++)
+    {
+        readable_output(flats + i);
+        puts("");
+    }
+    free(flats);
+    return FLT_SUCCESS;
+}
+
+int get_array_from_file(FILE *f, flat_t *flats, int count)
+{
+    for (int i = 0; i < count; i++)
+        if (get_from_file(f, flats + i))
+            return FLT_FAILURE;
+    return FLT_SUCCESS;
+}
+
+int get_from_file(FILE *f, flat_t *flat)
+{
+    size_t len;
+    if (!fgets(flat->adr, MAXN, f))
+        return FLT_FAILURE;
+    len = strlen(flat->adr);
+    if (flat->adr[len - 1] == '\n')
+        flat->adr[len - 1] = '\0';
+    if (fscanf(f, "%d", &flat->area) != 1)
+        return FLT_FAILURE;
+    if (fscanf(f, "%d", &flat->price_per_m2) != 1)
+        return FLT_FAILURE;
+    if (fscanf(f, "%d", &flat->room_cnt) != 1)
+        return FLT_FAILURE;
+    if (fscanf(f, "%d", (int *)&flat->is_new) != 1)
+        return FLT_FAILURE;
+    if (flat->is_new)
+    {
+        if (fscanf(f, "%d\n", (int *)&flat->type.is_trim) != 1)
+            return FLT_FAILURE;
+    }
+    else
+    {
+        if (fscanf(f, "%d", &flat->type.old.year) != 1)
+            return FLT_FAILURE;
+        if (fscanf(f, "%d", &flat->type.old.owner_cnt) != 1)
+            return FLT_FAILURE;
+        if (fscanf(f, "%d", &flat->type.old.lst_rsdnt_cnt) != 1)
+            return FLT_FAILURE;
+        if (fscanf(f, "%d\n", (int *)&flat->type.old.were_anmls) != 1)
+            return FLT_FAILURE;
+    }
+    return FLT_SUCCESS;
 }

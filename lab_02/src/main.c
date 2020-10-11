@@ -31,13 +31,34 @@ int main(int argc, char **argv)
             puts("File cannot be opened.");
             return OPEN_FAILURE;
         }
-        if (input_flats_to_file(f))
+        if (input_to_file(f))
         {
             fclose(f);
             puts("Failure during input.");
             return INPUT_FAILURE;
         }
         fclose(f);
+    }
+    else if (argc == 3 && strcmp(argv[1], "-o") == 0)
+    {
+        FILE *f;
+        f = fopen(argv[2], "r");
+        if (!f)
+        {
+            puts("File cannot be opened.");
+            return OPEN_FAILURE;
+        }
+        else
+        {
+            if (output_table(f))
+            {
+                fclose(f);
+                puts("Failure during readind.");
+                return READ_FAILURE;
+            }
+            fclose(f);
+        }
+
     }
 
     return SUCCESS;
