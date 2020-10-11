@@ -33,6 +33,7 @@ int main(int argc, char **argv)
         }
         if (input_flats_to_file(f))
         {
+            fclose(f);
             puts("Failure during input.");
             return INPUT_FAILURE;
         }
