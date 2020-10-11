@@ -146,9 +146,8 @@ void simple_output(FILE *f, flat_t *flat)
 int output_table(FILE *f)
 {
     int count;
-    char buf[3];
     flat_t *flats;
-    if (fscanf(f, "%d%c", &count, buf) != 2 || count < 1)
+    if (fscanf(f, "%d\n", &count) != 1 || count < 1)
         return FLT_FAILURE;
     flats = malloc(count * sizeof(flat_t));
     if (get_array_from_file(f, flats, count))
