@@ -45,8 +45,9 @@ int main(int argc, char **argv)
 void help(void)
 {
     puts("-help | Get help.");
+    puts("-i out.txt | Get flats from stream and write them to out.txt");
+    puts("-o in.txt | Output a table of flats from in.txt.");
     puts("-s1 [k] in.txt out.txt | Sort 1 struct array from in.txt and write to out.txt. If k is invoked, array of keys will be sorted instead.");
     puts("-s2 [k] in.txt out.txt | Sort 2 struct array from in.txt and write to out.txt. If k is invoked, array of keys will be sorted instead.");
-    puts("-d index in.txt out.txt | Delete index flat from in.txt and write the rest to out.txt");
-    puts("-o in.txt | Output a table of flats from in.txt.");
+    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");
 }
