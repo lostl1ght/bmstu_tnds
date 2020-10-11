@@ -58,3 +58,7 @@ out/
 *.gcov
 *.gcda
 *.gcno
+
+# Utility files
+out.txt
+in.txt

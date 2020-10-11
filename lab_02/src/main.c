@@ -1,27 +1,40 @@
 #define _USE_MINGW_ANSI_STDIO 1
 #include "flat.h"
+#include <string.h>
+#include <stdio.h>
 
 #define SUCCESS 0
-#define COUNT_FAILURE 1
+#define INPUT_FAILURE 1
 #define READ_FAILURE 2
+#define ARG_FAILURE 3
+#define OPEN_FAILURE 4
 
-int main(void)
+int main(int argc, char **argv)
 {
-    flat_t *flats;
-    int flt_cnt = 0;
-    char buf;
-    printf("Enter number of flats: ");
-    if (scanf("%d%c", &flt_cnt, &buf) != 2 || flt_cnt < 0)
-    {
-        printf("Wrong number of flats!");
-        return COUNT_FAILURE;
+    if (argc < 2 || argc == 4 || argc > 5)
+    {   
+        puts("Unknown arguments.");
+        return ARG_FAILURE;
     }
-    if (input_flat_array(&flats, flt_cnt))
+    else if (argc == 2 && strcmp(argv[1], "-help") == 0)
     {
-        printf("Wrong input!");
-        return READ_FAILURE;
+        //Вывести справку
     }
-    output_flat_array(flats, flt_cnt, output_flat);
-    free(flats);
+    else if (argc == 3 && strcmp(argv[1], "-i") == 0)
+    {
+        FILE *f;
+        f = fopen(argv[2], "w");
+        if (!f)
+        {
+            puts("File cannot be opened.");
+            return OPEN_FAILURE;
+        }
+        if (input_flats_to_file(f))
+        {
+            puts("Failure during input.");
+            return INPUT_FAILURE;
+        }
+    }
+
     return SUCCESS;
 }

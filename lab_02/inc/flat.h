@@ -36,9 +36,11 @@ typedef struct flat
     type_t type;
 } flat_t;
 
-int input_flat(flat_t *flat);
-void output_flat(flat_t *flat);
-int input_flat_array(flat_t **flats, size_t flt_cnt);
-void output_flat_array(flat_t *flats, size_t flt_cnt, void output(flat_t *));
+int get_from_stream(flat_t *flat);
+void readable_output(flat_t *flat);
+int input_flats_to_file(FILE *f);
+void simple_output(FILE *f, flat_t *flat);
+int get_flat_array(flat_t *flats, int count);
+void write_in_file(FILE *f, flat_t *flats, int count);
 
 #endif
