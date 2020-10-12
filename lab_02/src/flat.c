@@ -59,6 +59,7 @@ int get_from_stream(flat_t *flat)
     }
     else
         return FLT_FAILURE;
+    flat->price = flat->price_per_m2 * flat->area;
     puts("");
     return FLT_SUCCESS;
 }
@@ -200,6 +201,7 @@ int get_from_file(FILE *f, flat_t *flat)
         if (fscanf(f, "%d\n", (int *)&flat->type.old.were_anmls) != 1)
             return FLT_FAILURE;
     }
+    flat->price = flat->price_per_m2 * flat->area;
     return FLT_SUCCESS;
 }
 
@@ -225,7 +227,7 @@ void output_line(flat_t *flat)
            flat->room_cnt);
     if (flat->is_new)
         printf("%4s|%7s|       -|     -|             -|      -|\n", "yes",
-               flat->type.is_trim ? "true" : "false");
+               flat->type.is_trim ? "yes" : "no");
     else
         printf("%4s|      -|%8d|%6d|%14d|%7s|\n", "no",
                flat->type.old.year, flat->type.old.owner_cnt,

@@ -38,11 +38,11 @@ typedef struct flat
 
 int get_from_stream(flat_t *flat);
 void readable_output(flat_t *flat);
-int input_to_file(FILE *f);
+int input_to_file(FILE *f); // Записать в файл структуры
 void simple_output(FILE *f, flat_t *flat);
 int get_array_from_stream(flat_t *flats, int count);
 void write_in_file(FILE *f, flat_t *flats, int count);
-int output_table(FILE *f);
+int output_table(FILE *f); // Вывести таблицу из файла
 int get_array_from_file(FILE *f, flat_t *flats, int count);
 int get_from_file(FILE *f, flat_t *flat);
 void draw_table(flat_t *flats, int count);

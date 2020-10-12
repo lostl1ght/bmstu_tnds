@@ -13,10 +13,11 @@ void help(void);
 
 int main(int argc, char **argv)
 {
+    int rc = SUCCESS;
     if (argc < 2 || argc == 4 || argc > 5)
     {
         puts("Unknown arguments.");
-        return ARG_FAILURE;
+        rc = ARG_FAILURE;
     }
     else if (argc == 2 && strcmp(argv[1], "-help") == 0)
     {
@@ -29,15 +30,17 @@ int main(int argc, char **argv)
         if (!f)
         {
             puts("File cannot be opened.");
-            return OPEN_FAILURE;
+            rc = OPEN_FAILURE;
         }
-        if (input_to_file(f))
+        else 
         {
+            if (input_to_file(f))
+            {
+                puts("Failure during input.");
+                rc = INPUT_FAILURE;
+            }
             fclose(f);
-            puts("Failure during input.");
-            return INPUT_FAILURE;
         }
-        fclose(f);
     }
     else if (argc == 3 && strcmp(argv[1], "-o") == 0)
     {
@@ -46,30 +49,40 @@ int main(int argc, char **argv)
         if (!f)
         {
             puts("File cannot be opened.");
-            return OPEN_FAILURE;
+            rc = OPEN_FAILURE;
         }
         else
         {
             if (output_table(f))
             {
-                fclose(f);
-                puts("Failure during readind.");
-                return READ_FAILURE;
+                puts("Failure during reading.");
+                rc = READ_FAILURE;
             }
             fclose(f);
         }
-
+    }
+    else if (argc == 5 && strcmp(argv[1], "-d"))
+    {
+        // int index;
+        // FILE *f_in, *f_out;
+        // if (sscanf(argv[2], "%d", index) != 1)
+        //     return ARG_FAILURE;
+        // f_in = fopen(argv[3], "r");
+        // if (!f_in)
+        
     }
 
-    return SUCCESS;
+    return rc;
 }
 
 void help(void)
 {
-    puts("-help | Get help.");
-    puts("-i out.txt | Get flats from stream and write them to out.txt");
-    puts("-o in.txt | Output a table of flats from in.txt.");
+    puts("-help | Get help."); // Сделано
+    puts("-i out.txt | Get flats from stream and write them to out.txt"); // Сделано
+    puts("-o in.txt | Output a table of flats from in.txt."); // Сделано
+    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");
+    puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt.");
     puts("-s1 [-k] in.txt out.txt | Sort 1 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-s2 [-k] in.txt out.txt | Sort 2 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
-    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");
+    
 }
