@@ -240,9 +240,9 @@ int delete_by_index(FILE *f_in, FILE *f_out, int index)
     int count;
     flat_t *flats;
     if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
-        return FLT_FAILURE; 
+        return FLT_FAILURE;
     if (index >= count)
-        return FLT_FAILURE;   
+        return FLT_FAILURE;
     flats = malloc(count * sizeof(flat_t));
     if (get_array_from_file(f_in, flats, count))
     {
@@ -252,5 +252,33 @@ int delete_by_index(FILE *f_in, FILE *f_out, int index)
     memmove(flats + index, flats + index + 1, count - index - 1);
     write_in_file(f_out, flats, count - 1);
     free(flats);
+    return FLT_SUCCESS;
+}
+
+int append_to_file(FILE *f_in, FILE *f_out)
+{
+    int count;
+    flat_t *flats;
+    if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
+        return FLT_FAILURE;
+    flats = malloc((count + 1) * sizeof(flat_t));
+    if (get_array_from_file(f_in, flats, count))
+    {
+        free(flats);
+        return FLT_FAILURE;
+    }
+    if (append_to_array(flats, count))
+    {
+        free(flats);
+        return FLT_FAILURE;
+    }
+    write_in_file(f_out, flats, count + 1);
+    free(flats);
+    return FLT_SUCCESS;
+}
+int append_to_array(flat_t *flats, int count)
+{
+    if (get_from_stream(flats + count))
+        return FLT_FAILURE;
     return FLT_SUCCESS;
 }

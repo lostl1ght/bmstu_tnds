@@ -9,13 +9,14 @@
 #define ARG_FAILURE 3
 #define OPEN_FAILURE 4
 #define DELETE_FAILURE 5
+#define APPEND_FAILURE 6
 
 void help(void);
 
 int main(int argc, char **argv)
 {
     int rc = SUCCESS;
-    if (argc < 2 || argc == 4 || argc > 5)
+    if (argc < 2 || argc > 5)
     {
         puts("Unknown arguments.");
         rc = ARG_FAILURE;
@@ -73,6 +74,7 @@ int main(int argc, char **argv)
             f_in = fopen(argv[3], "r");
             if (!f_in)
             {
+                puts("Input file cannot be opened.");
                 rc = OPEN_FAILURE;
             }
             else
@@ -81,19 +83,53 @@ int main(int argc, char **argv)
                 if (!f_out)
                 {
                     fclose(f_in);
+                    puts("Output file cannot be opened.");
                     rc = OPEN_FAILURE;
                 }
                 else
                 {
                     if (delete_by_index(f_in, f_out, index))
                     {
-                        puts("Failure during deletion");
+                        puts("Failure during deletion.");
                         rc = DELETE_FAILURE;
                     }
-                    printf("Flat number %d deleted.", index);
+                    else
+                        printf("Flat number %d deleted.", index);
                     fclose(f_in);
                     fclose(f_out);
                 }
+            }
+        }
+    }
+    else if (argc == 4 && strcmp(argv[1], "-a") == 0)
+    {
+        FILE *f_in, *f_out;
+        f_in = fopen(argv[2], "r");
+        if (!f_in)
+        {
+            puts("Input file cannot be opened.");
+            rc = OPEN_FAILURE;
+        }
+        else
+        {
+            f_out = fopen(argv[3], "w");
+            if (!f_out)
+            {
+                fclose(f_in);
+                puts("Output file cannot be opened.");
+                rc = OPEN_FAILURE;
+            }
+            else
+            {
+                if (append_to_file(f_in, f_out))
+                {
+                    puts("Failure during appending.");
+                    rc = APPEND_FAILURE;
+                }
+                else
+                    puts("Flat was appended.");
+                fclose(f_in);
+                fclose(f_out);
             }
         }
     }
@@ -102,11 +138,11 @@ int main(int argc, char **argv)
 
 void help(void)
 {
-    puts("-help | Get help.");                                                                        // Сделано
-    puts("-i out.txt | Get flats from stream and write them to out.txt");                             // Сделано
-    puts("-o in.txt | Output a table of flats from in.txt.");                                         // Сделано
-    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt"); // Сделано
-    puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt.");
+    puts("-help | Get help.");                                                                           // Сделано
+    puts("-i out.txt | Get flats from stream and write them to out.txt");                                // Сделано
+    puts("-o in.txt | Output a table of flats from in.txt.");                                            // Сделано
+    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");    // Сделано
+    puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt."); // Сделано
     puts("-s1 [-k] in.txt out.txt | Sort 1 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-s2 [-k] in.txt out.txt | Sort 2 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-f | Find all the second hand 2 room flats in chosen price range without animals.");

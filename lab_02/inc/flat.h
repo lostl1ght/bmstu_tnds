@@ -48,5 +48,7 @@ int get_from_file(FILE *f, flat_t *flat);
 void draw_table(flat_t *flats, int count);
 void output_line(flat_t *flat);
 int delete_by_index(FILE *f_in, FILE *f_out, int index); // Удалить по индексу
+int append_to_file(FILE *f_in, FILE *f_out); // Добавление квартиры
+int append_to_array(flat_t *flats, int count);
 
 #endif
