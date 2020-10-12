@@ -62,7 +62,7 @@ int main(int argc, char **argv)
             fclose(f);
         }
     }
-    else if (argc == 5 && strcmp(argv[1], "-d"))
+    else if (argc == 5 && strcmp(argv[1], "-d") == 0)
     {
         int index;
         FILE *f_in, *f_out;
@@ -97,7 +97,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
     return rc;
 }
 
@@ -110,4 +109,5 @@ void help(void)
     puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt.");
     puts("-s1 [-k] in.txt out.txt | Sort 1 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-s2 [-k] in.txt out.txt | Sort 2 struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
+    puts("-f | Find all the second hand 2 room flats in chosen price range without animals.");
 }

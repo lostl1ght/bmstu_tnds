@@ -22,7 +22,7 @@ typedef struct old
 typedef union type
 {
     bool is_trim;
-    old_t old; 
+    old_t old;
 } type_t;
 
 typedef struct flat
@@ -47,5 +47,6 @@ int get_array_from_file(FILE *f, flat_t *flats, int count);
 int get_from_file(FILE *f, flat_t *flat);
 void draw_table(flat_t *flats, int count);
 void output_line(flat_t *flat);
+int delete_by_index(FILE *f_in, FILE *f_out, int index); // Удалить по индексу
 
 #endif

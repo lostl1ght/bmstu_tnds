@@ -234,3 +234,23 @@ void output_line(flat_t *flat)
                flat->type.old.lst_rsdnt_cnt,
                flat->type.old.were_anmls ? "yes" : "no");
 }
+
+int delete_by_index(FILE *f_in, FILE *f_out, int index)
+{
+    int count;
+    flat_t *flats;
+    if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
+        return FLT_FAILURE; 
+    if (index >= count)
+        return FLT_FAILURE;   
+    flats = malloc(count * sizeof(flat_t));
+    if (get_array_from_file(f_in, flats, count))
+    {
+        free(flats);
+        return FLT_FAILURE;
+    }
+    memmove(flats + index, flats + index + 1, count - index - 1);
+    write_in_file(f_out, flats, count - 1);
+    free(flats);
+    return FLT_SUCCESS;
+}
