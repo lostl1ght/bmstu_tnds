@@ -66,11 +66,12 @@ void insertion_sort(flat_t *arr, int count)
     for (int i = 1; i < count; i++)
     {
         int cur = i;
-        while (cur > 0 && arr[i - 1].area > arr[i].area)
+        while (cur > 0 && arr[cur - 1].area > arr[cur].area)
         {
-            flat_t tmp = arr[i - 1];
-            arr[i - 1] = arr[i];
-            arr[i] = tmp;
+            flat_t tmp = arr[cur - 1];
+            arr[cur - 1] = arr[cur];
+            arr[cur] = tmp;
+            cur--;
         }
     }
 }
@@ -81,7 +82,7 @@ int insert_sort_no_keys(FILE *f_in, FILE *f_out)
     flat_t *flats;
     if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
         return FLT_FAILURE;
-    flats = malloc((count + 1) * sizeof(flat_t));
+    flats = malloc(count * sizeof(flat_t));
     if (get_array_from_file(f_in, flats, count))
     {
         free(flats);
@@ -99,7 +100,7 @@ int merge_sort_no_keys(FILE *f_in, FILE *f_out)
     flat_t *flats;
     if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
         return FLT_FAILURE;
-    flats = malloc((count + 1) * sizeof(flat_t));
+    flats = malloc(count * sizeof(flat_t));
     if (get_array_from_file(f_in, flats, count))
     {
         free(flats);
