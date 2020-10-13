@@ -78,6 +78,8 @@ void insertion_sort(flat_t *arr, int count)
 
 int insert_sort_no_keys(FILE *f_in, FILE *f_out)
 {
+    struct timeval tv_start, tv_stop;
+    int64_t elapsed_time;
     int count;
     flat_t *flats;
     if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
@@ -88,7 +90,13 @@ int insert_sort_no_keys(FILE *f_in, FILE *f_out)
         free(flats);
         return FLT_FAILURE;
     }
+
+    gettimeofday(&tv_start, NULL);
     insertion_sort(flats, count);
+    gettimeofday(&tv_stop, NULL);
+    elapsed_time = (tv_stop.tv_sec -tv_start.tv_sec) * 1000000LL +(tv_stop.tv_usec -tv_start.tv_usec);
+    printf("Elapsed time: %" PRId64 " mks\n", elapsed_time);
+
     write_in_file(f_out, flats, count);
     free(flats);
     return FLT_SUCCESS;
@@ -96,6 +104,8 @@ int insert_sort_no_keys(FILE *f_in, FILE *f_out)
 
 int merge_sort_no_keys(FILE *f_in, FILE *f_out)
 {
+    struct timeval tv_start, tv_stop;
+    int64_t elapsed_time;
     int count;
     flat_t *flats;
     if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
@@ -106,7 +116,13 @@ int merge_sort_no_keys(FILE *f_in, FILE *f_out)
         free(flats);
         return FLT_FAILURE;
     }
+
+    gettimeofday(&tv_start, NULL);
     merge_sort(flats, 0, count - 1);
+    gettimeofday(&tv_stop, NULL);
+    elapsed_time = (tv_stop.tv_sec -tv_start.tv_sec) * 1000000LL +(tv_stop.tv_usec -tv_start.tv_usec);
+    printf("Elapsed time: %" PRId64 " mks\n", elapsed_time);
+
     write_in_file(f_out, flats, count);
     free(flats);
     return FLT_SUCCESS;
@@ -188,6 +204,8 @@ void insertion_sort_keys(key_t *arr, int count)
 
 int merge_sort_with_keys(FILE *f_in, FILE *f_out)
 {
+    struct timeval tv_start, tv_stop;
+    int64_t elapsed_time;
     int count;
     flat_t *flats;
     key_t *keys;
@@ -202,7 +220,13 @@ int merge_sort_with_keys(FILE *f_in, FILE *f_out)
         return FLT_FAILURE;
     }
     get_key_array(flats, keys, count);
+
+    gettimeofday(&tv_start, NULL);
     merge_sort_keys(keys, 0, count - 1);
+    gettimeofday(&tv_stop, NULL);
+    elapsed_time = (tv_stop.tv_sec -tv_start.tv_sec) * 1000000LL +(tv_stop.tv_usec -tv_start.tv_usec);
+    printf("Elapsed time: %" PRId64 " mks\n", elapsed_time);
+
     write_in_file_by_keys(f_out, flats, keys, count);
     free(flats);
     free(keys);
@@ -220,6 +244,8 @@ void get_key_array(flat_t *flats, key_t *keys, int count)
 
 int insert_sort_with_keys(FILE *f_in, FILE *f_out)
 {
+    struct timeval tv_start, tv_stop;
+    int64_t elapsed_time;
     int count;
     flat_t *flats;
     key_t *keys;
@@ -234,7 +260,13 @@ int insert_sort_with_keys(FILE *f_in, FILE *f_out)
         return FLT_FAILURE;
     }
     get_key_array(flats, keys, count);
+
+    gettimeofday(&tv_start, NULL);
     insertion_sort_keys(keys, count);
+    gettimeofday(&tv_stop, NULL);
+    elapsed_time = (tv_stop.tv_sec -tv_start.tv_sec) * 1000000LL +(tv_stop.tv_usec -tv_start.tv_usec);
+    printf("Elapsed time: %" PRId64 " mks\n", elapsed_time);
+
     write_in_file_by_keys(f_out, flats, keys, count);
     free(flats);
     free(keys);

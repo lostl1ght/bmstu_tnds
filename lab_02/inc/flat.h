@@ -6,6 +6,9 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include <inttypes.h>
+#include <sys/time.h>
+
 #define MAXN 32
 
 #define FLT_SUCCESS 0
