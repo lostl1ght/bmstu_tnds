@@ -217,3 +217,26 @@ void get_key_array(flat_t *flats, key_t *keys, int count)
         keys[i].area = flats[i].area;
     }
 }
+
+int insert_sort_with_keys(FILE *f_in, FILE *f_out)
+{
+    int count;
+    flat_t *flats;
+    key_t *keys;
+    if (fscanf(f_in, "%d\n", &count) != 1 || count < 1)
+        return FLT_FAILURE;
+    flats = malloc(count * sizeof(flat_t));
+    keys = malloc(count * sizeof(key_t));
+    if (get_array_from_file(f_in, flats, count))
+    {
+        free(flats);
+        free(keys);
+        return FLT_FAILURE;
+    }
+    get_key_array(flats, keys, count);
+    insertion_sort_keys(keys, count);
+    write_in_file_by_keys(f_out, flats, keys, count);
+    free(flats);
+    free(keys);
+    return FLT_SUCCESS;
+}
