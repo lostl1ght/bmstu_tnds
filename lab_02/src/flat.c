@@ -133,6 +133,13 @@ void write_in_file_by_keys(FILE *f, flat_t *flats, key_t *keys, int count)
         simple_output(f, flats + keys[i].index);
 }
 
+void write_in_file_by_ind(FILE *f, flat_t *flats, int *ind, int count)
+{
+    fprintf(f, "%d\n", count);
+    for (int i = 0; i < count; i++)
+        simple_output(f, flats + ind[i]);
+}
+
 void simple_output(FILE *f, flat_t *flat)
 {
     fprintf(f, "%s\n", flat->adr);
