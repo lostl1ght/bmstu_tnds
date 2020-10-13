@@ -199,16 +199,48 @@ int main(int argc, char **argv)
             }
         }
     }
+    else if (argc == 5 && strcmp(argv[1], "-mrg") == 0 && strcmp(argv[2], "-k") == 0)
+    {
+        FILE *f_in, *f_out;
+        f_in = fopen(argv[3], "r");
+        if (!f_in)
+        {
+            puts("Input file cannot be opened.");
+            rc = OPEN_FAILURE;
+        }
+        else
+        {
+            f_out = fopen(argv[4], "w");
+            if (!f_out)
+            {
+                fclose(f_in);
+                puts("Output file cannot be opened.");
+                rc = OPEN_FAILURE;
+            }
+            else
+            {
+                if (merge_sort_with_keys(f_in, f_out))
+                {
+                    puts("Failure during sorting.");
+                    rc = MERGE_NO_KEY_FAILURE;
+                }
+                else
+                    puts("Array was sorted.");
+                fclose(f_in);
+                fclose(f_out);
+            }
+        }
+    }
     return rc;
 }
 
 void help(void)
 {
-    puts("-help | Get help.");                                                                           // Сделано
-    puts("-i out.txt | Get flats from stream and write them to out.txt");                                // Сделано
-    puts("-o in.txt | Output a table of flats from in.txt.");                                            // Сделано
-    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");    // Сделано
-    puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt."); // Сделано
+    puts("-help | Get help.");
+    puts("-i out.txt | Get flats from stream and write them to out.txt");
+    puts("-o in.txt | Output a table of flats from in.txt.");
+    puts("-d index in.txt out.txt | Delete an index flat from in.txt and write the rest to out.txt");
+    puts("-a in.txt out.txt | Read an array of flats from in.txt, append a flat and write to out.txt.");
     puts("-mrg [-k] in.txt out.txt | Merge sort struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-ins [-k] in.txt out.txt | Insertion struct array from in.txt and write to out.txt. If -k is invoked, array of keys will be sorted instead.");
     puts("-f | Find all the second hand 2 room flats in chosen price range without animals.");

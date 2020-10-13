@@ -36,12 +36,19 @@ typedef struct flat
     type_t type;
 } flat_t;
 
+typedef struct key
+{
+    int index;
+    int area;
+} key_t;
+
 int get_from_stream(flat_t *flat);
 void readable_output(flat_t *flat);
 int input_to_file(FILE *f); // Записать в файл структуры
 void simple_output(FILE *f, flat_t *flat);
 int get_array_from_stream(flat_t *flats, int count);
 void write_in_file(FILE *f, flat_t *flats, int count);
+void write_in_file_by_keys(FILE *f, flat_t *flats, key_t *keys, int count);
 int output_table(FILE *f); // Вывести таблицу из файла
 int get_array_from_file(FILE *f, flat_t *flats, int count);
 int get_from_file(FILE *f, flat_t *flat);
