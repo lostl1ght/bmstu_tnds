@@ -157,7 +157,39 @@ int main(int argc, char **argv)
             {
                 if (merge_sort_no_keys(f_in, f_out))
                 {
-                    puts("Failure during merge sorting without array of keys.");
+                    puts("Failure during sorting.");
+                    rc = MERGE_NO_KEY_FAILURE;
+                }
+                else
+                    puts("Array was sorted.");
+                fclose(f_in);
+                fclose(f_out);
+            }
+        }
+    }
+    else if (argc == 4 && strcmp(argv[1], "-ins") == 0)
+    {
+        FILE *f_in, *f_out;
+        f_in = fopen(argv[2], "r");
+        if (!f_in)
+        {
+            puts("Input file cannot be opened.");
+            rc = OPEN_FAILURE;
+        }
+        else
+        {
+            f_out = fopen(argv[3], "w");
+            if (!f_out)
+            {
+                fclose(f_in);
+                puts("Output file cannot be opened.");
+                rc = OPEN_FAILURE;
+            }
+            else
+            {
+                if (insert_sort_no_keys(f_in, f_out))
+                {
+                    puts("Failure during sorting.");
                     rc = MERGE_NO_KEY_FAILURE;
                 }
                 else

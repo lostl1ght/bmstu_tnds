@@ -9,5 +9,6 @@
 void merge(flat_t *arr, int l, int m, int r);
 void merge_sort(flat_t *arr, int l, int r);
 int merge_sort_no_keys(FILE *f_in, FILE *f_out);
+int insert_sort_no_keys(FILE *f_in, FILE *f_out);
 
 #endif
