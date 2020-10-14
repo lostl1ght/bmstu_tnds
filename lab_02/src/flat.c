@@ -221,22 +221,22 @@ int get_from_file(FILE *f, flat_t *flat)
 
 void draw_table(flat_t *flats, int count)
 {
-    printf("_______________________________________________"
-           "____________________________________________\n");
-    printf("|%16s|%5s|%8s|%5s|%4s|%7s|%8s|%6s|%14s|%7s|\n",
+    printf("______________________________________________________"
+           "_____________________________________________\n");
+    printf("|%7s|%16s|%5s|%8s|%5s|%4s|%7s|%8s|%6s|%14s|%7s|\n", "index",
            "adress", "area", "$ per m2", "rooms", "new", "trimmed",
            "year", "owners", "last residents", "animals");
-    printf("|________________|_____|________|_____|____|_______"
+    printf("|_______|________________|_____|________|_____|____|_______"
            "|________|______|______________|_______|\n");
     for (int i = 0; i < count; i++)
-        output_line(flats + i);
-    printf("|________________|_____|________|_____|____|_______"
+        output_line(flats + i, i);
+    printf("|_______|________________|_____|________|_____|____|_______"
            "|________|______|______________|_______|\n");
 }
 
-void output_line(flat_t *flat)
+void output_line(flat_t *flat, int index)
 {
-    printf("|%16s|%5d|%8d|%5d|",
+    printf("|%7d|%16s|%5d|%8d|%5d|", index,
            flat->adr, flat->area, flat->price_per_m2,
            flat->room_cnt);
     if (flat->is_new)
@@ -263,7 +263,8 @@ int delete_by_index(FILE *f_in, FILE *f_out, int index)
         free(flats);
         return FLT_FAILURE;
     }
-    memmove(flats + index, flats + index + 1, count - index - 1);
+    for (int i = index; i < count - 1; i++)
+        flats[i] = flats[i + 1];
     write_in_file(f_out, flats, count - 1);
     free(flats);
     return FLT_SUCCESS;

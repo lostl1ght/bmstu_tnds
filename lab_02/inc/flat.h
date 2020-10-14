@@ -47,18 +47,18 @@ typedef struct key
 
 int get_from_stream(flat_t *flat);
 void readable_output(flat_t *flat);
-int input_to_file(FILE *f); // Записать в файл структуры
+int input_to_file(FILE *f);
 void simple_output(FILE *f, flat_t *flat);
 int get_array_from_stream(flat_t *flats, int count);
 void write_in_file(FILE *f, flat_t *flats, int count);
 void write_in_file_by_keys(FILE *f, flat_t *flats, key_t *keys, int count);
-int output_table(FILE *f); // Вывести таблицу из файла
+int output_table(FILE *f);
 int get_array_from_file(FILE *f, flat_t *flats, int count);
 int get_from_file(FILE *f, flat_t *flat);
 void draw_table(flat_t *flats, int count);
-void output_line(flat_t *flat);
-int delete_by_index(FILE *f_in, FILE *f_out, int index); // Удалить по индексу
-int append_to_file(FILE *f_in, FILE *f_out); // Добавление квартиры
+void output_line(flat_t *flat, int index);
+int delete_by_index(FILE *f_in, FILE *f_out, int index);
+int append_to_file(FILE *f_in, FILE *f_out);
 int append_to_array(flat_t *flats, int count);
 void write_in_file_by_ind(FILE *f, flat_t *flats, int *ind, int count);
 
