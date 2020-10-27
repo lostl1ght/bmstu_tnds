@@ -3,15 +3,15 @@ OUTPATH = ./out/
 INCPATH = ./inc/
 SRCPATH = ./src/
 UNIPATH = ./unit_tests/
-CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -O0
+CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -Wfloat-conversion -O0
 
 SRCS = $(wildcard $(SRCPATH)*.c)
 
 # В этой строке указываются юниты для тестирования. Все остальное работает автоматически.
-USRCSF = # $(SRCPATH)sorting.c $(SRCPATH)filtering.c
+USRCSF = # $(SRCPATH)matrix_multiply.c $(SRCPATH)matrix_process.c
 USRCSC = $(wildcard $(UNIPATH)*.c)
 
-.NOTPARALLEL: release debug func
+.NOTPARALLEL: release debug func deps
 .PHONY: release debug clean dir deps func unit
 
 release: CFLAGS += -g0
@@ -26,7 +26,7 @@ func: $(OUTPATH)func.lastbuildstate app.exe
 	gcov $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
 	mv *.gcov $(OUTPATH)
 
-unit: unit_tests.exe
+unit: $(OUTPATH)unit.lastbuildstate unit_tests.exe
 	drmemory -batch -lib_blacklist "*" -- unit_tests.exe
 
 app.exe: $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
