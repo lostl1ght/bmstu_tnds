@@ -3,6 +3,7 @@ OUTPATH = ./out/
 INCPATH = ./inc/
 SRCPATH = ./src/
 UNIPATH = ./unit_tests/
+FUNCPATH = ./func_tests/
 CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -Wfloat-conversion -O0
 
 SRCS = $(wildcard $(SRCPATH)*.c)
@@ -22,7 +23,7 @@ debug: $(OUTPATH)debug.lastbuildstate app.exe
 
 func: CFLAGS += -g0 --coverage
 func: $(OUTPATH)func.lastbuildstate app.exe
-	cd func_tests && ./all_tests.cmd
+	cd $(FUNCPATH) && ./all_tests.cmd
 	gcov $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
 	mv *.gcov $(OUTPATH)
 
