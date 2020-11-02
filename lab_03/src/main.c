@@ -1,13 +1,10 @@
 #include <stdio.h>
 
-typedef enum choice
-{
-    END,
-    INPUT,
-    SUMSIMPLE,
-    SUMSPARSE,
-    ERROR
-} choice_t;
+#define END 0
+#define INPUT 1
+#define SUMSIMPLE 2
+#define SUMSPARSE 3
+#define ERROR 4
 
 int menu(void);
 
@@ -58,7 +55,7 @@ int menu(void)
         fgets(buf, 64, stdin);
         rc = ERROR;
     }
-    if (rc < 0)
+    if (rc < END || rc > ERROR)
         rc = ERROR;
     return rc;
 }
