@@ -1,25 +1,50 @@
 #include <stdio.h>
+#include "matrix.h"
 
-#define END 0
-#define INPUT 1
-#define SUMSIMPLE 2
-#define SUMSPARSE 3
-#define ERROR 4
+typedef enum choice 
+{
+    END,
+    INPUTSIMPLE,
+    INPUTSPARSE,
+    SUMSIMPLE,
+    SUMSPARSE,
+    ERROR
+} choice_e;
 
-int menu(void);
+choice_e menu(void);
 
 int main(void)
 {
-    int rc;
+    matrix_s m1;//, m2;
+    choice_e chs;
     char flag = 1;
     while (flag)
     {
-        rc = menu();
-        switch (rc)
+        chs = menu();
+        switch (chs)
         {
-            case INPUT:
-                puts("input");
-                // input_matrix();
+            case INPUTSIMPLE:
+                if (read_size(&m1))
+                {
+                    puts("Size input failed.");
+                    break;
+                }
+                if (create_matrix(&m1))
+                {
+                    puts("Memory allocation failed.");
+                    break;
+                }
+                puts("Enter matrix elements:");
+                if (input_matrix(&m1))
+                {
+                    delete_matrix(&m1);
+                    puts("Matrix input failed.");
+                    break;
+                }
+                output_matrix(&m1);
+                break;
+            case INPUTSPARSE:
+                puts("input sparese");
                 break;
             case SUMSIMPLE:
                 puts("simple");
@@ -38,17 +63,19 @@ int main(void)
                 break;
         }
     }
+    delete_matrix(&m1);
     return 0;
 }
 
-int menu(void)
+choice_e menu(void)
 {
     int rc;
     char buf[64];
     puts("\nMENU");
-    puts("\tEnter 1 to input matrices.");
-    puts("\tEnter 2 to sum matrices input as matrices.");
-    puts("\tEnter 3 to sum matrices input as sparse matrices.");
+    puts("\tEnter 1 to input simple matrices.");
+    puts("\tEnter 2 to input sparse matrices.");
+    puts("\tEnter 3 to sum matrices input as matrices.");
+    puts("\tEnter 4 to sum matrices input as sparse matrices.");
     puts("\tEnter 0 to end program.");
     if (scanf("%d", &rc) != 1)
     {
