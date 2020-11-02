@@ -8,8 +8,8 @@
 #define OUTSPEC "%5ld"
 
 #define OK 0
-#define MEREAD 1
-#define MEMEM 2
+#define EREAD 1
+#define EMEM 2
 
 typedef long mtype_t;
 typedef long stype_t;
