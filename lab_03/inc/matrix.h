@@ -3,16 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define TYPESPEC "%ld"
-#define OUTSPEC "%5ld"
+#include "m_types.h"
 
 #define OK 0
 #define EREAD 1
 #define EMEM 2
-
-typedef long mtype_t;
-typedef long stype_t;
 
 typedef struct matrix
 {
