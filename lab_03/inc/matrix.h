@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include "m_types.h"
 
-#define OK 0
-#define EREAD 1
-#define EMEM 2
+#define MOK 0
+#define MEREAD 1
+#define MEMEM 2
 
 typedef struct matrix
 {

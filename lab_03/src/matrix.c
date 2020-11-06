@@ -4,11 +4,11 @@ int create_matrix(matrix_s *const m)
 {
     m->matrix = calloc(m->cols, sizeof(mtype_t *));
     if (!m)
-        return EMEM;
+        return MEMEM;
     for (stype_t j = 0; j < m->cols; j++)
         if (!(m->matrix[j] = malloc(m->rows * sizeof(mtype_t))))
-            return EMEM;
-    return OK;
+            return MEMEM;
+    return MOK;
 }
 
 void delete_matrix(matrix_s *const m)
@@ -26,9 +26,9 @@ int input_matrix(matrix_s *const m)
             if (scanf(TYPESPEC, &m->matrix[j][i]) != 1)
             {
                 fgets(buf, 1024, stdin);
-                return EREAD;
+                return MEREAD;
             }
-    return OK;
+    return MOK;
 }
 
 void output_matrix(matrix_s *const m)
@@ -48,14 +48,14 @@ int read_size(matrix_s *const m)
     if (scanf(TYPESPEC, &m->rows) != 1 || m->rows < 1)
     {
         fgets(buf, 1024, stdin);
-        return EREAD;
+        return MEREAD;
     }
     printf("Enter column count: ");
     if (scanf(TYPESPEC, &m->cols) != 1 || m->cols < 1)
     {
         fgets(buf, 1024, stdin);
-        return EREAD;
+        return MEREAD;
     }
     puts("");
-    return OK;
+    return MOK;
 }
