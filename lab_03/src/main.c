@@ -16,12 +16,12 @@ choice_e menu(void);
 int main(void)
 {
     matrix_s m1;//, m2;
-    choice_e chs;
+    choice_e chc;
     char flag = 1;
     while (flag)
     {
-        chs = menu();
-        switch (chs)
+        chc = menu();
+        switch (chc)
         {
             case INPUTSIMPLE:
                 if (read_size(&m1))
