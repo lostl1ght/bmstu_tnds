@@ -59,3 +59,25 @@ int read_size(matrix_s *const m)
     puts("");
     return MOK;
 }
+
+int matrux_input_wrapper(matrix_s *const m)
+{
+    if (read_size(m))
+    {
+        puts("Size input failed.");
+        return MFAIL;
+    }
+    if (create_matrix(m))
+    {
+        puts("Memory allocation failed.");
+        return MFAIL;
+    }
+    puts("Enter matrix elements:");
+    if (input_matrix(m))
+    {
+        delete_matrix(m);
+        puts("Matrix input failed.");
+        return MFAIL;
+    }
+    return MOK;
+}

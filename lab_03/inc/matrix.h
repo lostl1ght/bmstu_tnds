@@ -8,6 +8,7 @@
 #define MOK 0
 #define MEREAD 1
 #define MEMEM 2
+#define MFAIL 3
 
 typedef struct matrix
 {
@@ -21,5 +22,6 @@ void delete_matrix(matrix_s *const m);
 int input_matrix(matrix_s *const m);
 void output_matrix(matrix_s *const m);
 int read_size(matrix_s *const m);
+int matrux_input_wrapper(matrix_s *const m);
 
 #endif
