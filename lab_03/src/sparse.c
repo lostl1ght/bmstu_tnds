@@ -35,6 +35,7 @@ int sparse_input(sparse_s *const s)
     for (stype_t i = 0; i < s->c_count; i++)
         if (scanf(TYPESPEC, s->col + i) != 1)
             return SEREAD;
+    return SOK;
 }
 
 void sparse_output(sparse_s *const s)
@@ -44,8 +45,8 @@ void sparse_output(sparse_s *const s)
         printf(OUTSPEC, s->non_zero[i]);
     puts("Non zero element row numbers:");
     for (stype_t i = 0; i < s->n_count; i++)
-        printf(OUTSPEC, s->rows + i);
+        printf(OUTSPEC, s->rows[i]);
     puts("Column starting index of non zero elements:");
     for (stype_t i = 0; i < s->c_count; i++)
-        printf(OUTSPEC, s->col + i);
+        printf(OUTSPEC, s->col[i]);
 }
