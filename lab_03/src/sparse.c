@@ -7,10 +7,17 @@ int sparse_create(sparse_s *const s)
         return SEMEM;
     s->rows = malloc(s->n_count * sizeof(mtype_t));
     if (!s->rows)
+    {
+        free(s->non_zero);
         return SEMEM;
+    }
     s->col = malloc(s->c_count * sizeof(mtype_t));
     if (!s->col)
+    {
+        free(s->non_zero);
+        free(s->rows);
         return SEMEM;
+    }
     return SOK;
 }
 
