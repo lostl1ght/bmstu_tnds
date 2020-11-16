@@ -18,9 +18,9 @@ typedef struct sparse
     stype_t c_count;
 } sparse_s;
 
-int sparse_create(sparse_s *const s);
-void sparse_delete(sparse_s *const s);
-int sparse_input(sparse_s *const s);
-void sparse_output(sparse_s *const s);
+int create_sparse(sparse_s *const s);
+void delete_sparse(sparse_s *const s);
+int input_sparse(sparse_s *const s);
+void output_sparse(sparse_s *const s);
 
 #endif

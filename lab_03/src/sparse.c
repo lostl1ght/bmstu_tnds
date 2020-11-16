@@ -1,6 +1,6 @@
 #include "sparse.h"
 
-int sparse_create(sparse_s *const s)
+int create_sparse(sparse_s *const s)
 {
     s->non_zero = malloc(s->n_count * sizeof(mtype_t));
     if (!s->non_zero)
@@ -21,14 +21,14 @@ int sparse_create(sparse_s *const s)
     return SOK;
 }
 
-void sparse_delete(sparse_s *const s)
+void delete_sparse(sparse_s *const s)
 {
     free(s->non_zero);
     free(s->rows);
     free(s->col);
 }
 
-int sparse_input(sparse_s *const s)
+int input_sparse(sparse_s *const s)
 {
     puts("Enter non zero elements:");
     for (stype_t i = 0; i < s->n_count; i++)
@@ -45,7 +45,7 @@ int sparse_input(sparse_s *const s)
     return SOK;
 }
 
-void sparse_output(sparse_s *const s)
+void output_sparse(sparse_s *const s)
 {
     puts("Non zero elements:");
     for (stype_t i = 0; i < s->n_count; i++)
