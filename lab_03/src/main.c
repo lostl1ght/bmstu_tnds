@@ -3,7 +3,7 @@
 #include "sparse.h"
 #include "matrix_process.h"
 
-typedef enum choice 
+typedef enum choice
 {
     END,
     INPUTSIMPLE,
@@ -18,8 +18,8 @@ choice_e menu(void);
 
 int main(void)
 {
-    matrix_s m1;//, m2;
-    sparse_s s1;//, s2;
+    matrix_s m1; //, m2;
+    sparse_s s1; //, s2;
     choice_e chc;
     char flag = 1;
     int inpt_m1 = 2, inpt_s1 = 2, cnvrt_to_m1 = 2, cnvrt_to_s1 = 2;
@@ -30,6 +30,10 @@ int main(void)
         switch (chc)
         {
             case INPUTSIMPLE:
+                if (!inpt_m1 || !cnvrt_to_m1)
+                    delete_matrix(&m1);
+                if (!inpt_s1 || !cnvrt_to_s1)
+                    delete_sparse(&s1);
                 inpt_m1 = matrux_input_wrapper(&m1);
                 if (!inpt_m1)
                 {
@@ -41,7 +45,19 @@ int main(void)
                     puts("Input simple matrix failed.");
                 break;
             case INPUTSPARSE:
-                puts("input sparese");
+                if (!inpt_m1 || !cnvrt_to_m1)
+                    delete_matrix(&m1);
+                if (!inpt_s1 || !cnvrt_to_s1)
+                    delete_sparse(&s1);
+                inpt_s1 = sparse_input_wrapper(&s1);
+                if (!inpt_s1)
+                {
+                    cnvrt_to_m1 = convert_to_matrix(&m1, &s1);
+                    if (cnvrt_to_m1)
+                        puts("Convertion to matrix failed. You cannot sum matrices as simple.");
+                }
+                else
+                    puts("Input sparse matrix failed");
                 break;
             case SUMSIMPLE:
                 puts("simple");
@@ -83,7 +99,7 @@ choice_e menu(void)
     puts("\tEnter 2 to input sparse matrices.");
     puts("\tEnter 3 to sum matrices input as matrices.");
     puts("\tEnter 4 to sum matrices input as sparse matrices.");
-    puts("\tEnter 5 to output matrices input.");    
+    puts("\tEnter 5 to output matrices input.");
     puts("\tEnter 0 to end program.");
     if (scanf("%d", &rc) != 1)
     {
