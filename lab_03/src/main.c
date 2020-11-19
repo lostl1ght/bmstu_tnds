@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "matrix.h"
+#include "sparse.h"
+#include "matrix_process.h"
 
 typedef enum choice 
 {
@@ -17,6 +19,7 @@ choice_e menu(void);
 int main(void)
 {
     matrix_s m1;//, m2;
+    sparse_s s1;//, s2;
     choice_e chc;
     char flag = 1;
     int inpt = 1;
@@ -27,6 +30,8 @@ int main(void)
         {
             case INPUTSIMPLE:
                 inpt = matrux_input_wrapper(&m1);
+                if (!inpt)
+                    convert_to_sparse(&m1, &s1);
                 break;
             case INPUTSPARSE:
                 puts("input sparese");
@@ -46,7 +51,10 @@ int main(void)
             case OUTPUT:
                 puts("Matrix 1:");
                 if (!inpt)
+                {
                     output_matrix(&m1);
+                    output_sparse(&s1);
+                }
                 break;
             default:
                 puts("Unknown option.");
@@ -56,6 +64,7 @@ int main(void)
     if (!inpt)
     {
         delete_matrix(&m1);
+        delete_sparse(&s1);
     }
     return 0;
 }
