@@ -16,6 +16,7 @@ typedef struct sparse
     stype_t n_count;
     mtype_t *col;
     stype_t c_count;
+    stype_t r_count;
 } sparse_s;
 
 int create_sparse(sparse_s *const s);

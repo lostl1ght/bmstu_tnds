@@ -3,6 +3,7 @@
 
 #define TYPESPEC "%ld"
 #define OUTSPEC "%5ld"
+#define SOUTSPEC "%5ld"
 
 typedef long mtype_t;
 typedef long stype_t;

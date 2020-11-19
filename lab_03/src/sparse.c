@@ -42,6 +42,9 @@ int input_sparse(sparse_s *const s)
     for (stype_t i = 0; i < s->c_count; i++)
         if (scanf(TYPESPEC, s->col + i) != 1)
             return SEREAD;
+    puts("Enter row number:");
+    if (scanf(SOUTSPEC, &s->r_count) != 1 || s->r_count < 1)
+        return SEREAD;
     return SOK;
 }
 
@@ -56,4 +59,5 @@ void output_sparse(sparse_s *const s)
     puts("\nColumn starting index of non zero elements:");
     for (stype_t i = 0; i < s->c_count; i++)
         printf(OUTSPEC, s->col[i]);
+    printf("\nRow number is " SOUTSPEC, s->r_count);
 }

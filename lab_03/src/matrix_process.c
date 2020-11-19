@@ -6,6 +6,7 @@ int convert_to_sparse(matrix_s *m, sparse_s *s)
     stype_t len = 0;
     s->n_count = non_zero_count(m);
     s->c_count = m->cols + 1;
+    s->r_count = m->rows;
     if (create_sparse(s))
         return PEMEM;
     for (stype_t j = 0; j < m->cols; j++)
