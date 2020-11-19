@@ -6,7 +6,7 @@ int create_matrix(matrix_s *const m)
     if (!m)
         return MEMEM;
     for (stype_t j = 0; j < m->cols; j++)
-        if (!(m->matrix[j] = malloc(m->rows * sizeof(mtype_t))))
+        if (!(m->matrix[j] = calloc(m->rows, sizeof(mtype_t))))
         {
             delete_matrix(m);
             return MEMEM;
