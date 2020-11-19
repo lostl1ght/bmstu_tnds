@@ -23,5 +23,6 @@ int create_sparse(sparse_s *const s);
 void delete_sparse(sparse_s *const s);
 int input_sparse(sparse_s *const s);
 void output_sparse(sparse_s *const s);
+int sparse_input_wrapper(sparse_s *const s);
 
 #endif
