@@ -1,5 +1,5 @@
-#ifndef M_TYPES_H
-#define M_TYPES_H
+#ifndef MTYPES_H
+#define MTYPES_H
 
 #define TYPESPEC "%ld"
 #define OUTSPEC "%5ld"

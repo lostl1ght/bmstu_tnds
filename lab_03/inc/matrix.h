@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "m_types.h"
+#include "mtypes.h"
 
 #define MOK 0
 #define MEREAD 1

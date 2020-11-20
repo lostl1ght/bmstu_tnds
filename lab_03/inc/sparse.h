@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "m_types.h"
+#include "mtypes.h"
 
 #define SOK 0
 #define SEREAD 1
