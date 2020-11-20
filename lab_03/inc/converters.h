@@ -1,5 +1,5 @@
-#ifndef MATRIX_PROCESS_H
-#define MATRIX_PROCESS_H
+#ifndef CONVERTERS_H
+#define CONVERTERS_H
 
 #include "matrix.h"
 #include "sparse.h"
