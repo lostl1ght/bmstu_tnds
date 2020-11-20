@@ -2,6 +2,7 @@
 #include "matrix.h"
 #include "sparse.h"
 #include "converters.h"
+#include "summatrix.h"
 
 typedef enum choice
 {
@@ -18,12 +19,12 @@ choice_e menu(void);
 
 int main(void)
 {
-    matrix_s m1; //, m2;
-    sparse_s s1; //, s2;
+    matrix_s m1, m2, mres;
+    sparse_s s1, s2, sres;
     choice_e chc;
     char flag = 1;
     int inpt_m1 = 2, inpt_s1 = 2, cnvrt_to_m1 = 2, cnvrt_to_s1 = 2;
-    // int inpt_m2 = 2, inpt_s2 = 2, cnvrt_to_m2 = 2, cnvrt_to_s2 = 2;
+    int inpt_m2 = 2, inpt_s2 = 2, cnvrt_to_m2 = 2, cnvrt_to_s2 = 2;
     while (flag)
     {
         chc = menu();
@@ -39,10 +40,24 @@ int main(void)
                 {
                     cnvrt_to_s1 = convert_to_sparse(&m1, &s1);
                     if (cnvrt_to_s1)
-                        puts("Convertion to sparse failed. You cannot sum matrices as sparse.");
+                        puts("Convertion to sparse 1 failed. You cannot sum matrices as sparse.");
                 }
                 else
-                    puts("Input simple matrix failed.");
+                    puts("Input simple matrix 1 failed.");
+
+                if (!inpt_m2 || !cnvrt_to_m2)
+                    delete_matrix(&m2);
+                if (!inpt_s2 || !cnvrt_to_s2)
+                    delete_sparse(&s2);
+                inpt_m2 = matrux_input_wrapper(&m2);
+                if (!inpt_m2)
+                {
+                    cnvrt_to_s2 = convert_to_sparse(&m2, &s2);
+                    if (cnvrt_to_s2)
+                        puts("Convertion to sparse 2 failed. You cannot sum matrices as sparse.");
+                }
+                else
+                    puts("Input simple matrix 2 failed.");
                 break;
             case INPUTSPARSE:
                 if (!inpt_m1 || !cnvrt_to_m1)
@@ -54,14 +69,54 @@ int main(void)
                 {
                     cnvrt_to_m1 = convert_to_matrix(&m1, &s1);
                     if (cnvrt_to_m1)
-                        puts("Convertion to matrix failed. You cannot sum matrices as simple.");
+                        puts("Convertion to matrix 1 failed. You cannot sum matrices as simple.");
                 }
                 else
-                    puts("Input sparse matrix failed");
+                    puts("Input sparse matrix 1 failed");
+
+                if (!inpt_m2 || !cnvrt_to_m2)
+                    delete_matrix(&m2);
+                if (!inpt_s2 || !cnvrt_to_s2)
+                    delete_sparse(&s2);
+                inpt_s2 = sparse_input_wrapper(&s2);
+                if (!inpt_s2)
+                {
+                    cnvrt_to_m2 = convert_to_matrix(&m2, &s2);
+                    if (cnvrt_to_m2)
+                        puts("Convertion to matrix 2 failed. You cannot sum matrices as simple.");
+                }
+                else
+                    puts("Input sparse matrix 2 failed");
                 break;
             case SUMSIMPLE:
-                puts("simple");
-                // sum_as_simple();
+                if (!inpt_m1 && !inpt_m2)
+                {
+                    if (m1.cols != m2.cols || m1.rows != m2.rows)
+                        puts("Sizes of matrices are not same.");
+                    else
+                    {
+                        mres.cols = m1.cols;
+                        mres.rows = m1.rows;
+                        if (create_matrix(&mres))
+                            puts("Cannot create result matrix.");
+                        else
+                        {
+                            summatrix(&m1, &m2, &mres);
+                            puts("Result:");
+                            output_matrix(&mres);
+                            if (convert_to_sparse(&mres, &sres))
+                                puts("Cannot convert result matrix to sparse.");
+                            else
+                            {
+                                output_sparse(&sres);
+                                delete_sparse(&sres);
+                            }
+                            delete_matrix(&mres);
+                        }
+                    }
+                }
+                else
+                    puts("Input is invalid.");
                 break;
             case SUMSPARSE:
                 puts("sparse");
@@ -77,6 +132,11 @@ int main(void)
                     output_matrix(&m1);
                 if (!inpt_s1 || !cnvrt_to_s1)
                     output_sparse(&s1);
+                puts("Matrix 2:");
+                if (!inpt_m2 || !cnvrt_to_m2)
+                    output_matrix(&m2);
+                if (!inpt_s2 || !cnvrt_to_s2)
+                    output_sparse(&s2);
                 break;
             default:
                 puts("Unknown option.");
@@ -87,6 +147,10 @@ int main(void)
         delete_matrix(&m1);
     if (!inpt_s1 || !cnvrt_to_s1)
         delete_sparse(&s1);
+    if (!inpt_m2 || !cnvrt_to_m2)
+        delete_matrix(&m2);
+    if (!inpt_s2 || !cnvrt_to_s2)
+        delete_sparse(&s2);
     return 0;
 }
 
