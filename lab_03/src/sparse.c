@@ -59,7 +59,7 @@ void output_sparse(sparse_s *const s)
     puts("\nColumn starting index of non zero elements:");
     for (stype_t i = 0; i < s->c_count + 1; i++)
         printf(OUTSPEC, s->col[i]);
-    printf("\nRow number is:\n" SOUTSPEC, s->r_count);
+    printf("\nRow number is:\n" SOUTSPEC "\n", s->r_count);
 }
 
 int sparse_input_wrapper(sparse_s *const s)

@@ -59,7 +59,6 @@ int read_size(matrix_s *const m)
         fgets(buf, 1024, stdin);
         return MEREAD;
     }
-    puts("");
     return MOK;
 }
 
