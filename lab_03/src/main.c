@@ -3,6 +3,7 @@
 #include "sparse.h"
 #include "converters.h"
 #include "summatrix.h"
+#include "sumsparse.h"
 
 typedef enum choice
 {
@@ -89,7 +90,7 @@ int main(void)
                     puts("Input sparse matrix 2 failed");
                 break;
             case SUMSIMPLE:
-                if (!inpt_m1 && !inpt_m2)
+                if ((!inpt_m1 && !inpt_m2) || (!cnvrt_to_m1 && !cnvrt_to_m2))
                 {
                     if (m1.cols != m2.cols || m1.rows != m2.rows)
                         puts("Sizes of matrices are not same.");
@@ -119,8 +120,35 @@ int main(void)
                     puts("Input is invalid.");
                 break;
             case SUMSPARSE:
-                puts("sparse");
-                // sum_as_sparse();
+                if ((!inpt_s1 && !inpt_s2) || (!cnvrt_to_s1 && !cnvrt_to_s2))
+                {
+                    if (s1.c_count != s2.c_count || s1.r_count != s2.r_count)
+                        puts("Sizes of matrices are not same.");
+                    else
+                    {
+                        sres.c_count = s1.c_count;
+                        sres.r_count = s1.r_count;
+                        sres.n_count = s1.n_count + s2.n_count;
+                        if (create_sparse(&sres))
+                            puts("Cannot create result matrix.");
+                        else
+                        {
+                            sumsparse(&s1, &s2, &sres);
+                            puts("Result:");
+                            if (convert_to_matrix(&mres, &sres))
+                                puts("Cannot convert result matrix to simple.");
+                            else
+                            {
+                                output_matrix(&mres);
+                                delete_matrix(&mres);
+                            }
+                            output_sparse(&sres);
+                            delete_sparse(&sres);
+                        }
+                    }
+                }
+                else
+                    puts("Input is invalid.");
                 break;
             case END:
                 puts("Goodbye!");
