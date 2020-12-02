@@ -89,7 +89,7 @@ int main()
                     welcome();
                 }
 
-                printf("%s\n", "Enter non zero elements of matrix B using \'column rows value\' format:");
+                printf("%s\n", "Enter non zero elements of matrix B using \'column row value\' format:");
                 create(&matrix_b);
                 if (input(&matrix_b, dots_b))
                 {
