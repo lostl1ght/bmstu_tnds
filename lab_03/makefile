@@ -2,7 +2,7 @@ CC = gcc
 OUTPATH = ./out/
 INCPATH = ./inc/
 SRCPATH = ./src/
-CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -Wfloat-conversion -O0
+CFLAGS = -std=c99 -O0
 
 SRCS = $(wildcard $(SRCPATH)*.c)
 
@@ -16,7 +16,7 @@ debug: CFLAGS += -g3
 debug: $(OUTPATH)debug.lastbuildstate app.exe
 
 app.exe: $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
-	$(CC) $(CFLAGS) $^ -o app.exe
+	$(CC) $(CFLAGS) $^ -o app.exe -lm
 
 $(OUTPATH)%.o: $(SRCPATH)%.c | dir
 	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@

@@ -1,78 +1,141 @@
-#include "sparse.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-int create_sparse(sparse_s *const s)
+#include "defines.h"
+#include "ds.h"
+
+#include "io.h"
+
+void fill_sparse(sparse_t *const sparse)
 {
-    s->non_zero = malloc(s->n_count * sizeof(mtype_t));
-    if (!s->non_zero)
-        return SEMEM;
-    s->rows = malloc(s->n_count * sizeof(mtype_t));
-    if (!s->rows)
+    for (int ent = 0; ent < sparse->elems_amount; ++ent)
     {
-        free(s->non_zero);
-        return SEMEM;
+        *(sparse->elems + ent) = 0;
     }
-    s->col = malloc((s->c_count + 1) * sizeof(mtype_t));
-    if (!s->col)
+    for (int ent = 0; ent < sparse->elems_amount; ++ent)
     {
-        free(s->non_zero);
-        free(s->rows);
-        return SEMEM;
+        *(sparse->row_entry + ent) = 0;
     }
-    return SOK;
+    for (int ent = 0; ent < sparse->cols_amount; ++ent)
+    {
+        *(sparse->col_entry + ent) = -1;
+    }
 }
 
-void delete_sparse(sparse_s *const s)
+int screate(sparse_t *const sparse, const int dots, const int cols)
 {
-    free(s->non_zero);
-    free(s->rows);
-    free(s->col);
+    sparse->elems = (type_t *)malloc(dots * sizeof(type_t));
+    sparse->row_entry = (int *)malloc(dots * sizeof(int));
+    sparse->col_entry = (int *)malloc(cols * sizeof(int));
+    sparse->elems_amount = dots;
+    sparse->cols_amount = cols;
+
+    if (!sparse->elems || !sparse->row_entry || !sparse->col_entry)
+    {
+        return MEMORY_ALLOC_ERROR;
+    }
+
+    fill_sparse(sparse);
+
+    return OK;
 }
 
-int input_sparse(sparse_s *const s)
+int sdelete(sparse_t *const sparse)
 {
-    puts("Enter row number:");
-    if (scanf(STYPESPEC, &s->r_count) != 1 || s->r_count < 1)
-        return SEREAD;
-    puts("Enter non zero elements:");
-    for (stype_t i = 0; i < s->n_count; i++)
-        if (scanf(TYPESPEC, s->non_zero + i) != 1)
-            return SEREAD;
-    puts("Enter non zero element row numbers:");
-    for (stype_t i = 0; i < s->n_count; i++)
-        if (scanf(TYPESPEC, s->rows + i) != 1)
-            return SEREAD;
-    puts("Enter column starting index of non zero elements:");
-    for (stype_t i = 0; i < s->c_count + 1; i++)
-        if (scanf(TYPESPEC, s->col + i) != 1)
-            return SEREAD;
-    return SOK;
+    if (!sparse->elems || !sparse->row_entry || !sparse->col_entry)
+    {
+        return MEMORY_ALLOC_ERROR;
+    }
+
+    free(sparse->elems);
+    free(sparse->row_entry);
+    free(sparse->col_entry);
+
+    return OK;
 }
 
-void output_sparse(sparse_s *const s)
+int sinput(sparse_t *const sparse, const matrix_t matrix)
 {
-    puts("Non zero elements:");
-    for (stype_t i = 0; i < s->n_count; i++)
-        printf(OUTSPEC, s->non_zero[i]);
-    puts("\nNon zero element row numbers:");
-    for (stype_t i = 0; i < s->n_count; i++)
-        printf(OUTSPEC, s->rows[i]);
-    puts("\nColumn starting index of non zero elements:");
-    for (stype_t i = 0; i < s->c_count + 1; i++)
-        printf(OUTSPEC, s->col[i]);
-    printf("\nRow number is:\n" SOUTSPEC "\n", s->r_count);
+    if (!matrix.matrix || !sparse->elems || !sparse->row_entry || !sparse->col_entry)
+    {
+        return MEMORY_ALLOC_ERROR;
+    }
+
+    int ind = -1;
+    int cur = 0;
+
+    for (int col = 0; col < matrix.columns; ++col)
+    {
+        for (int row = 0; row < matrix.rows; ++row)
+        {
+            if (*(*(matrix.matrix + row) + col) != 0)
+            {
+                ind++;
+                if (*(sparse->col_entry + col) == -1)
+                {
+                    *(sparse->col_entry + col) = ind;
+                }
+            }
+        }
+    }
+
+    for (int col = 0; col < matrix.columns; ++col)
+    {
+        for (int row = 0; row < matrix.rows; ++row)
+        {
+            if (*(*(matrix.matrix + row) + col) != 0)
+            {
+                *(sparse->elems + cur) = *(*(matrix.matrix + row) + col);
+                *(sparse->row_entry + cur) = row;
+                cur++;
+            }
+        }
+    }
+
+    for (int ent = 0; ent < sparse->cols_amount; ++ent)
+    {
+        if (*(sparse->col_entry + ent) == -1)
+        {
+            for (int search = ent; search < sparse->cols_amount; ++search)
+            {
+                if (*(sparse->col_entry + search) != -1)
+                {
+                    *(sparse->col_entry + ent) = *(sparse->col_entry + search);
+                    break;
+                }
+
+                *(sparse->col_entry + search) = sparse->elems_amount;
+            }
+        }
+    }
+
+    return OK;
 }
 
-int sparse_input_wrapper(sparse_s *const s)
+int soutput(const sparse_t sparse)
 {
-    puts("Enter non zero elements number:");
-    if (scanf(STYPESPEC, &s->n_count) != 1 || s->n_count < 1)
-        return SEREAD;
-    puts("Enter columns number:");
-    if (scanf(STYPESPEC, &s->c_count) != 1 || s->c_count < 1)
-        return SEREAD;
-    if (create_sparse(s))
-        return SEMEM;
-    if (input_sparse(s))
-        return SEREAD;
-    return SOK;
+    if (!sparse.elems || !sparse.row_entry || !sparse.col_entry)
+    {
+        return MEMORY_ALLOC_ERROR;
+    }
+
+    for (int el = 0; el < sparse.elems_amount; ++el)
+    {
+        printf(out_spec, *(sparse.elems + el));
+    }
+    printf("%s", "\n");
+
+    for (int el = 0; el < sparse.elems_amount; ++el)
+    {
+        printf("%5d ", *(sparse.row_entry + el));
+    }
+    printf("%s", "\n");
+
+    for (int el = 0; el < sparse.cols_amount; ++el)
+    {
+        printf("%5d ", *(sparse.col_entry + el));
+    }
+    printf("%s", "\n");
+
+    return OK;
 }

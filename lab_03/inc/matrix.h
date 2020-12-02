@@ -1,27 +1,14 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "mtypes.h"
+#include "ds.h"
 
-#define MOK 0
-#define MEREAD 1
-#define MEMEM 2
-#define MFAIL 3
+int create(matrix_t *const matrix);
 
-typedef struct matrix
-{
-    mtype_t **matrix;
-    stype_t rows;
-    stype_t cols;
-} matrix_s;
+int deletee(matrix_t *const matrix);
 
-int create_matrix(matrix_s *const m);
-void delete_matrix(matrix_s *const m);
-int input_matrix(matrix_s *const m);
-void output_matrix(matrix_s *const m);
-int read_size(matrix_s *const m);
-int matrux_input_wrapper(matrix_s *const m);
+int input(matrix_t *const matrix, const int dots);
+
+int output(const matrix_t *const matrix);
 
 #endif

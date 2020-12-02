@@ -1,85 +1,121 @@
-#include "matrix.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-int create_matrix(matrix_s *const m)
+#include "defines.h"
+#include "ds.h"
+
+#include "io.h"
+
+void fill_matrix(matrix_t *const matrix)
 {
-    m->matrix = calloc(m->cols, sizeof(mtype_t *));
-    if (!m)
-        return MEMEM;
-    for (stype_t j = 0; j < m->cols; j++)
-        if (!(m->matrix[j] = calloc(m->rows, sizeof(mtype_t))))
+    for (int row = 0; row < matrix->rows; ++row)
+    {
+        for (int col = 0; col < matrix->columns; ++col)
         {
-            delete_matrix(m);
-            return MEMEM;
+            *(*(matrix->matrix + row) + col) = 0;
         }
-    return MOK;
+    }
 }
 
-void delete_matrix(matrix_s *const m)
+int create(matrix_t *const matrix)
 {
-    for (stype_t j = 0; j < m->cols; j++)
-        free(m->matrix[j]);
-    free(m->matrix);
-}
+    matrix->matrix = (type_t **)malloc(matrix->rows * sizeof(type_t *));
 
-int input_matrix(matrix_s *const m)
-{
-    char buf[1024];
-    for (stype_t i = 0; i < m->rows; i++)
-        for (stype_t j = 0; j < m->cols; j++)
-            if (scanf(TYPESPEC, &m->matrix[j][i]) != 1)
+    if (!matrix->matrix)
+    {
+        return MEMORY_ALLOC_ERROR;
+    }
+
+    for (int row = 0; row < matrix->rows; ++row)
+    {
+        *(matrix->matrix + row) = (type_t *)malloc(matrix->columns * sizeof(type_t));
+
+        if (!*(matrix->matrix + row))
+        {
+            for (int clean = 0; clean < row; ++clean)
             {
-                fgets(buf, 1024, stdin);
-                return MEREAD;
+                free(*(matrix->matrix + clean));
             }
-    return MOK;
+
+            free(matrix->matrix);
+
+            return MEMORY_ALLOC_ERROR;
+        }
+    }
+
+    fill_matrix(matrix);
+
+    return OK;
 }
 
-void output_matrix(matrix_s *const m)
+int deletee(matrix_t *const matrix)
 {
-    for (stype_t i = 0; i < m->rows; i++)
+    if (!matrix->matrix)
     {
-        for (stype_t j = 0; j < m->cols; j++)
-            printf(OUTSPEC, m->matrix[j][i]);
-        puts("");
+        return MEMORY_ALLOC_ERROR;
     }
+
+    for (int clean = 0; clean < matrix->rows; ++clean)
+    {
+        if (*(matrix->matrix + clean))
+        {
+            free(*(matrix->matrix + clean));
+        }
+    }
+
+    free(matrix->matrix);
+
+    return OK;
 }
 
-int read_size(matrix_s *const m)
+int input(matrix_t *const matrix, const int dots)
 {
-    char buf[1024];
-    printf("Enter row count: ");
-    if (scanf(TYPESPEC, &m->rows) != 1 || m->rows < 1)
+    if (!matrix->matrix)
     {
-        fgets(buf, 1024, stdin);
-        return MEREAD;
+        return MEMORY_ALLOC_ERROR;
     }
-    printf("Enter column count: ");
-    if (scanf(TYPESPEC, &m->cols) != 1 || m->cols < 1)
+
+    for (int dot = 0; dot < dots; ++dot)
     {
-        fgets(buf, 1024, stdin);
-        return MEREAD;
+        int row, col, cur;
+
+        if (input_interval(&row, 0, matrix->rows - 1))
+        {
+            return INVALID_INT_INPUT_ERROR;
+        }
+
+        if (input_interval(&col, 0, matrix->columns - 1))
+        {
+            return INVALID_INT_INPUT_ERROR;
+        }
+
+        if (input_interval(&cur, -1000, 99999))
+        {
+            return INVALID_INT_INPUT_ERROR;
+        }
+
+        *(*(matrix->matrix + row) + col) = cur;
     }
-    return MOK;
+
+    return OK;
 }
 
-int matrux_input_wrapper(matrix_s *const m)
+int output(const matrix_t *const matrix)
 {
-    if (read_size(m))
+    if (!matrix->matrix)
     {
-        puts("Size input failed.");
-        return MFAIL;
+        return MEMORY_ALLOC_ERROR;
     }
-    if (create_matrix(m))
+
+    for (int row = 0; row < matrix->rows; ++row)
     {
-        puts("Memory allocation failed.");
-        return MFAIL;
+        for (int col = 0; col < matrix->columns; ++col)
+        {
+            printf(out_spec, *(*(matrix->matrix + row) + col));
+        }
+
+        printf("%s", "\n");
     }
-    puts("Enter matrix elements:");
-    if (input_matrix(m))
-    {
-        delete_matrix(m);
-        puts("Matrix input failed.");
-        return MFAIL;
-    }
-    return MOK;
+
+    return OK;
 }

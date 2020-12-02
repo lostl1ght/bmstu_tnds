@@ -1,204 +1,295 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
+#include <math.h>
+
+#include "defines.h"
+#include "io.h"
 #include "matrix.h"
 #include "sparse.h"
-#include "converters.h"
-#include "summatrix.h"
-#include "sumsparse.h"
+#include "func.h"
 
-typedef enum choice
+int main()
 {
-    END,
-    INPUTSIMPLE,
-    INPUTSPARSE,
-    SUMSIMPLE,
-    SUMSPARSE,
-    OUTPUT,
-    ERROR
-} choice_e;
+    welcome();
 
-choice_e menu(void);
+    matrix_t matrix_a, matrix_b, matrix_res;
+    sparse_t sparse_a, sparse_b, sparse_res;
+    int dots_a, dots_b, dots_sum = 0;
+    int percent_a, percent_b;
 
-int main(void)
-{
-    matrix_s m1, m2, mres;
-    sparse_s s1, s2, sres;
-    choice_e chc;
-    char flag = 1;
-    int inpt_m1 = 2, inpt_s1 = 2, cnvrt_to_m1 = 2, cnvrt_to_s1 = 2;
-    int inpt_m2 = 2, inpt_s2 = 2, cnvrt_to_m2 = 2, cnvrt_to_s2 = 2;
-    while (flag)
+    int cur_command = -1;
+
+    while (cur_command != 0)
     {
-        chc = menu();
-        switch (chc)
+        if (input_interval(&cur_command, 0, 6))
         {
-            case INPUTSIMPLE:
-                if (!inpt_m1 || !cnvrt_to_m1)
-                    delete_matrix(&m1);
-                if (!inpt_s1 || !cnvrt_to_s1)
-                    delete_sparse(&s1);
-                inpt_m1 = matrux_input_wrapper(&m1);
-                if (!inpt_m1)
-                {
-                    cnvrt_to_s1 = convert_to_sparse(&m1, &s1);
-                    if (cnvrt_to_s1)
-                        puts("Convertion to sparse 1 failed. You cannot sum matrices as sparse.");
-                }
-                else
-                    puts("Input simple matrix 1 failed.");
+            printf(
+                "%s\n",
+                "Invalid command.");
 
-                if (!inpt_m2 || !cnvrt_to_m2)
-                    delete_matrix(&m2);
-                if (!inpt_s2 || !cnvrt_to_s2)
-                    delete_sparse(&s2);
-                inpt_m2 = matrux_input_wrapper(&m2);
-                if (!inpt_m2)
-                {
-                    cnvrt_to_s2 = convert_to_sparse(&m2, &s2);
-                    if (cnvrt_to_s2)
-                        puts("Convertion to sparse 2 failed. You cannot sum matrices as sparse.");
-                }
-                else
-                    puts("Input simple matrix 2 failed.");
-                break;
-            case INPUTSPARSE:
-                if (!inpt_m1 || !cnvrt_to_m1)
-                    delete_matrix(&m1);
-                if (!inpt_s1 || !cnvrt_to_s1)
-                    delete_sparse(&s1);
-                inpt_s1 = sparse_input_wrapper(&s1);
-                if (!inpt_s1)
-                {
-                    cnvrt_to_m1 = convert_to_matrix(&m1, &s1);
-                    if (cnvrt_to_m1)
-                        puts("Convertion to matrix 1 failed. You cannot sum matrices as simple.");
-                }
-                else
-                    puts("Input sparse matrix 1 failed");
+            welcome();
+        }
 
-                if (!inpt_m2 || !cnvrt_to_m2)
-                    delete_matrix(&m2);
-                if (!inpt_s2 || !cnvrt_to_s2)
-                    delete_sparse(&s2);
-                inpt_s2 = sparse_input_wrapper(&s2);
-                if (!inpt_s2)
+        else
+        {
+            if (cur_command == 1)
+            {
+                printf("%s\n", "Enter row number of matrix A (1 to 1000):");
+                if (input_interval(&matrix_a.rows, 1, 1000))
                 {
-                    cnvrt_to_m2 = convert_to_matrix(&m2, &s2);
-                    if (cnvrt_to_m2)
-                        puts("Convertion to matrix 2 failed. You cannot sum matrices as simple.");
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
                 }
-                else
-                    puts("Input sparse matrix 2 failed");
-                break;
-            case SUMSIMPLE:
-                if ((!inpt_m1 && !inpt_m2) || (!cnvrt_to_m1 && !cnvrt_to_m2))
+
+                printf("%s\n", "Enter column number of matrix A (1 to 1000):");
+                if (input_interval(&matrix_a.columns, 1, 1000))
                 {
-                    if (m1.cols != m2.cols || m1.rows != m2.rows)
-                        puts("Sizes of matrices are not same.");
-                    else
-                    {
-                        mres.cols = m1.cols;
-                        mres.rows = m1.rows;
-                        if (create_matrix(&mres))
-                            puts("Cannot create result matrix.");
-                        else
-                        {
-                            summatrix(&m1, &m2, &mres);
-                            puts("Result:");
-                            output_matrix(&mres);
-                            if (convert_to_sparse(&mres, &sres))
-                                puts("Cannot convert result matrix to sparse.");
-                            else
-                            {
-                                output_sparse(&sres);
-                                delete_sparse(&sres);
-                            }
-                            delete_matrix(&mres);
-                        }
-                    }
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
                 }
-                else
-                    puts("Input is invalid.");
-                break;
-            case SUMSPARSE:
-                if ((!inpt_s1 && !inpt_s2) || (!cnvrt_to_s1 && !cnvrt_to_s2))
+
+                printf("%s\n", "Enter non zero elements number of matrix A (1 to 1000):");
+                if (input_interval(&dots_a, 0, matrix_a.rows * matrix_a.columns))
                 {
-                    if (s1.c_count != s2.c_count || s1.r_count != s2.r_count)
-                        puts("Sizes of matrices are not same.");
-                    else
-                    {
-                        sres.c_count = s1.c_count;
-                        sres.r_count = s1.r_count;
-                        sres.n_count = s1.n_count + s2.n_count;
-                        if (create_sparse(&sres))
-                            puts("Cannot create result matrix.");
-                        else
-                        {
-                            sumsparse(&s1, &s2, &sres);
-                            puts("Result:");
-                            if (convert_to_matrix(&mres, &sres))
-                                puts("Cannot convert result matrix to simple.");
-                            else
-                            {
-                                output_matrix(&mres);
-                                delete_matrix(&mres);
-                            }
-                            output_sparse(&sres);
-                            delete_sparse(&sres);
-                        }
-                    }
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    welcome();
                 }
-                else
-                    puts("Input is invalid.");
-                break;
-            case END:
-                puts("Goodbye!");
-                flag = 0;
-                break;
-            case OUTPUT:
-                puts("Matrix 1:");
-                if (!inpt_m1 || !cnvrt_to_m1)
-                    output_matrix(&m1);
-                if (!inpt_s1 || !cnvrt_to_s1)
-                    output_sparse(&s1);
-                puts("Matrix 2:");
-                if (!inpt_m2 || !cnvrt_to_m2)
-                    output_matrix(&m2);
-                if (!inpt_s2 || !cnvrt_to_s2)
-                    output_sparse(&s2);
-                break;
-            default:
-                puts("Unknown option.");
-                break;
+
+                printf("%s\n", "Enter non zero elements of matrix A using \'column rows value\' format:");
+                create(&matrix_a);
+                if (input(&matrix_a, dots_a))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                matrix_b.rows = matrix_a.rows;
+                matrix_b.columns = matrix_a.columns;
+
+                printf("%s\n", "Enter non zero elements number of matrix B (1 to 1000):");
+                if (input_interval(&dots_b, 0, matrix_b.rows * matrix_b.columns))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    welcome();
+                }
+
+                printf("%s\n", "Enter non zero elements of matrix B using \'column rows value\' format:");
+                create(&matrix_b);
+                if (input(&matrix_b, dots_b))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                matrix_res.rows = matrix_a.rows;
+                matrix_res.columns = matrix_a.columns;
+
+                create(&matrix_res);
+
+                screate(&sparse_a, dots_a, matrix_a.columns);
+                sinput(&sparse_a, matrix_a);
+                fill_col_entry(&sparse_a, matrix_a);
+
+                screate(&sparse_b, dots_b, matrix_a.columns);
+                sinput(&sparse_b, matrix_b);
+                fill_col_entry(&sparse_b, matrix_b);
+
+                sdots(sparse_a, sparse_b, &dots_sum);
+                screate(&sparse_res, dots_sum, matrix_a.columns);
+
+                welcome();
+            }
+
+            if (cur_command == 2)
+            {
+                printf("%s\n", "Enter row number of matrix A (1 to 1000):");
+                if (input_interval(&matrix_a.rows, 1, 1000))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                printf("%s\n", "Enter column number of matrix A (1 to 1000):");
+                if (input_interval(&matrix_a.columns, 1, 1000))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                printf("%s\n", "Enter parcentage filling of matrix A (0 to 100):");
+                if (input_interval(&percent_a, 0, 100))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                printf("%s\n", "Enter parcentage filling of matrix B (0 to 100):");
+                if (input_interval(&percent_b, 0, 100))
+                {
+                    printf(
+                        "%s\n",
+                        "Invalid value.");
+
+                    return OK;
+                }
+
+                matrix_b.rows = matrix_a.rows;
+                matrix_b.columns = matrix_a.columns;
+
+                create(&matrix_a);
+                create(&matrix_b);
+                int to_fill_a = floor(matrix_a.rows * matrix_a.columns * percent_a / 100.0);
+                int a_create = to_fill_a;
+                while (to_fill_a)
+                {
+                    gorandom(&matrix_a, percent_a);
+                    to_fill_a--;
+                }
+                int to_fill_b = floor(matrix_a.rows * matrix_a.columns * percent_b / 100.0);
+                int b_create = to_fill_b;
+                while (to_fill_b)
+                {
+                    gorandom(&matrix_b, percent_b);
+                    to_fill_b--;
+                }
+
+                matrix_res.rows = matrix_a.rows;
+                matrix_res.columns = matrix_a.columns;
+
+                create(&matrix_res);
+
+                screate(&sparse_a, a_create, matrix_a.columns);
+                sinput(&sparse_a, matrix_a);
+                fill_col_entry(&sparse_a, matrix_a);
+
+                screate(&sparse_b, b_create, matrix_a.columns);
+                sinput(&sparse_b, matrix_b);
+                fill_col_entry(&sparse_b, matrix_b);
+
+                sdots(sparse_a, sparse_b, &dots_sum);
+                screate(&sparse_res, dots_sum, matrix_a.columns);
+
+                welcome();
+            }
+
+            if (cur_command == 3)
+            {
+                uint64_t ticks = 0;
+                classic_sum(matrix_a, matrix_b, &matrix_res, &ticks);
+
+                printf(
+                    "%s%ju\n",
+                    "Time of adding matrices using standard way = ",
+                    ticks);
+
+                welcome();
+            }
+
+            if (cur_command == 4)
+            {
+                uint64_t ticks = 0;
+                classic_sum(matrix_a, matrix_b, &matrix_res, &ticks);
+                ticks = 0;
+                fill_col_entry(&sparse_a, matrix_a);
+                fill_col_entry(&sparse_b, matrix_b);
+                sparse_sum(sparse_a, sparse_b, &sparse_res, &ticks);
+                fill_col_entry(&sparse_res, matrix_res);
+
+                printf(
+                    "%s%ju\n",
+                    "Time of adding matrices using sparse column way = ",
+                    ticks);
+
+                int mat_size = sizeof(type_t **) +
+                               sizeof(type_t *) * matrix_res.rows +
+                               sizeof(type_t) * matrix_res.rows * matrix_res.columns +
+                               2 * sizeof(int);
+                int sparse_size = sizeof(type_t *) * 3 +
+                                  sizeof(type_t) * sparse_res.elems_amount * 2 +
+                                  sizeof(type_t) * sparse_res.cols_amount +
+                                  2 * sizeof(int);
+
+                printf("~%d~%d\n", sparse_size, mat_size);
+
+                welcome();
+            }
+
+            if (cur_command == 5)
+            {
+                printf(
+                    "%s\n",
+                    "Matrix A:");
+                output(&matrix_a);
+
+                printf(
+                    "%s\n",
+                    "Matrix B:");
+                output(&matrix_b);
+
+                printf(
+                    "%s\n",
+                    "Result matrix:");
+                output(&matrix_res);
+
+                welcome();
+            }
+
+            if (cur_command == 6)
+            {
+                printf(
+                    "%s\n",
+                    "Matrix A:");
+                soutput(sparse_a);
+
+                printf(
+                    "%s\n",
+                    "Matrix B:");
+                soutput(sparse_b);
+
+                printf(
+                    "%s\n",
+                    "Result matrix:");
+                soutput(sparse_res);
+
+                welcome();
+            }
         }
     }
-    if (!inpt_m1 || !cnvrt_to_m1)
-        delete_matrix(&m1);
-    if (!inpt_s1 || !cnvrt_to_s1)
-        delete_sparse(&s1);
-    if (!inpt_m2 || !cnvrt_to_m2)
-        delete_matrix(&m2);
-    if (!inpt_s2 || !cnvrt_to_s2)
-        delete_sparse(&s2);
-    return 0;
-}
 
-choice_e menu(void)
-{
-    int rc;
-    char buf[64];
-    puts("\nMENU");
-    puts("\tEnter 1 to input simple matrices.");
-    puts("\tEnter 2 to input sparse matrices.");
-    puts("\tEnter 3 to sum matrices input as matrices.");
-    puts("\tEnter 4 to sum matrices input as sparse matrices.");
-    puts("\tEnter 5 to output matrices input.");
-    puts("\tEnter 0 to end program.");
-    if (scanf("%d", &rc) != 1)
-    {
-        fgets(buf, 64, stdin);
-        rc = ERROR;
-    }
-    if (rc < END || rc > ERROR)
-        rc = ERROR;
-    return rc;
+    deletee(&matrix_a);
+    sdelete(&sparse_a);
+    deletee(&matrix_b);
+    sdelete(&sparse_b);
+    deletee(&matrix_res);
+    sdelete(&sparse_res);
+
+    return OK;
 }

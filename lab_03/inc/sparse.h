@@ -1,28 +1,16 @@
 #ifndef SPARSE_H
 #define SPARSE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "mtypes.h"
+#include "ds.h"
 
-#define SOK 0
-#define SEREAD 1
-#define SEMEM 2
+void fill_sparse(sparse_t *const sparse);
 
-typedef struct sparse
-{
-    mtype_t *non_zero;
-    mtype_t *rows;
-    stype_t n_count;
-    mtype_t *col;
-    stype_t c_count;
-    stype_t r_count;
-} sparse_s;
+int screate(sparse_t *const sparse, const int dots, const int cols);
 
-int create_sparse(sparse_s *const s);
-void delete_sparse(sparse_s *const s);
-int input_sparse(sparse_s *const s);
-void output_sparse(sparse_s *const s);
-int sparse_input_wrapper(sparse_s *const s);
+int sdelete(sparse_t *const sparse);
+
+int sinput(sparse_t *const sparse, const matrix_t matrix);
+
+int soutput(const sparse_t sparse);
 
 #endif
