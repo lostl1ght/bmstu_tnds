@@ -38,7 +38,7 @@ void output_arrstack(arrstack_t stack)
     }
 }
 
-int add_1st_arrstack(arrstack_t *stack, double num)
+int add_1st_arrstack(arrstack_t *stack, const double num)
 {
     if (stack->top1 + 1 == stack->top2)
         return 1;
@@ -47,7 +47,7 @@ int add_1st_arrstack(arrstack_t *stack, double num)
     return 0;
 }
 
-int pop_1st_arrstack(arrstack_t *stack, double *num)
+int pop_1st_arrstack(arrstack_t *stack, double *const num)
 {
     if (stack->top1 == stack->arr)
     stack->top1--;
@@ -60,7 +60,7 @@ void empty_1st_arrstack(arrstack_t *stack)
     stack->top1 = stack->arr;
 }
 
-int add_2nd_arrstack(arrstack_t *stack, double num)
+int add_2nd_arrstack(arrstack_t *stack, const double num)
 {
     if (stack->top1 + 1 == stack->top2)
         return 1;
@@ -69,7 +69,7 @@ int add_2nd_arrstack(arrstack_t *stack, double num)
     return 0;
 }
 
-int pop_2st_arrstack(arrstack_t *stack, double *num)
+int pop_2st_arrstack(arrstack_t *stack, double *const num)
 {
     if (stack->top2 == stack->end)
         return 1;

@@ -16,11 +16,11 @@ arrstack_t *create_arrstack(const size_t size);
 void delete_arrstack(arrstack_t *stack);
 void output_arrstack(arrstack_t stack);
 
-int add_1st_arrstack(arrstack_t *stack, double num);
-int pop_1st_arrstack(arrstack_t *stack, double *num);
+int add_1st_arrstack(arrstack_t *stack, const double num);
+int pop_1st_arrstack(arrstack_t *stack, double *const num);
 void empty_1st_arrstack(arrstack_t *stack);
-int add_2nd_arrstack(arrstack_t *stack, double num);
-int pop_2st_arrstack(arrstack_t *stack, double *num);
+int add_2nd_arrstack(arrstack_t *stack, const double num);
+int pop_2st_arrstack(arrstack_t *stack, double *const num);
 void empty_2nd_arrstack(arrstack_t *stack);
 
 #endif
