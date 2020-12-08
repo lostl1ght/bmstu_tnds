@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <math.h>
+#include <unistd.h>
 
 #include "defines.h"
 #include "io.h"
@@ -173,6 +174,7 @@ int main()
                     gorandom(&matrix_a, percent_a);
                     to_fill_a--;
                 }
+                sleep(1);
                 int to_fill_b = floor(matrix_a.rows * matrix_a.columns * percent_b / 100.0);
                 int b_create = to_fill_b;
                 while (to_fill_b)
