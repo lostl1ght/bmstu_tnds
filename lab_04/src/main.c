@@ -14,7 +14,8 @@ int main(void)
     char buf[BUFSIZE];
     arrstack_t *arrstack = NULL;
     stacknode_t *top = NULL;
-    long size;
+    long size = 0;
+    long max_size = 0;
     while ((main_cmd = main_menu()))
         switch (main_cmd)
         {
@@ -142,29 +143,43 @@ int main(void)
                 while ((cmd = list_menu()))
                     switch (cmd)
                     {
-                        double num;
                         case 1:
-                            puts("Enter a number to push to the stack:");
-                            if (scanf("%lf", &num) != 1)
-                                puts("Wrong number.");
-                            else
                             {
-                                uint64_t ticks;
-                                stacknode_t *tmp;
-                                if (!(tmp = push_list_stack(top, num, &ticks)))
-                                    puts("Couldn't push to the stack.");
+                                double num;
+                                puts("Enter a number to push to the stack:");
+                                if (scanf("%lf", &num) != 1)
+                                    puts("Wrong number.");
                                 else
                                 {
-                                    top = tmp;
-                                    printf("Time of pushing: %lu. Done.", ticks);
+                                    uint64_t ticks;
+                                    stacknode_t *tmp;
+                                    if (!(tmp = push_list_stack(top, num, &ticks)))
+                                        puts("Couldn't push to the stack.");
+                                    else
+                                    {
+                                        top = tmp;
+                                        printf("Time of pushing: %lu. Done.", ticks);
+                                    }
                                 }
                             }
                             break;
                         case 2:
-                            puts("pop 1");
+                            {
+                                double num;
+                                uint64_t ticks;
+                                if (pop_list_stack(&top, &num, &ticks))
+                                    puts("Stack is empty.");
+                                else
+                                    printf("Number: %lf. Time of popping: %lu\n", num, ticks);
+                            }
                             break;
                         case 3:
-                            puts("empty 1");
+                            {
+                                uint64_t ticks;
+                                top = empty_list_stack(top, &ticks);
+                                size = 0;
+                                printf("Time of emptying: %lu. Done.\n", ticks);
+                            }
                             break;
                         case 4:
                             if (!top)
