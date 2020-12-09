@@ -22,8 +22,11 @@ arrstack_t *create_arrstack(const size_t size, uint64_t *ticks)
 
 void delete_arrstack(arrstack_t *stack)
 {
-    free(stack->arr);
-    free(stack);
+    if (stack)
+    {
+        free(stack->arr);
+        free(stack);
+    }
 }
 
 void output_arrstack(arrstack_t *stack)
