@@ -15,7 +15,7 @@ void delete_stack_node(stacknode_t *node)
 
 void output_stack_node(const stacknode_t *node)
 {
-    printf("%lf\n", node->num);
+    printf("Number: %lf, adress: %p\n", node->num, (void *)node);
 }
 
 void delete_list_stack(stacknode_t *top)
