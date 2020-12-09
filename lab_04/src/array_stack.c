@@ -27,13 +27,13 @@ void output_arrstack(arrstack_t stack)
     puts("First array stack:");
     while (stack.arr <= stack.top1)
     {
-        printf("%lf\n", stack.top1);
+        printf("%lf\n", *stack.top1);
         stack.top1--;
     }
     puts("Second stack:");
     while (stack.end > stack.top2)
     {
-        printf("%lf\n", stack.top2);
+        printf("%lf\n", *stack.top2);
         stack.top2++;
     }
 }
