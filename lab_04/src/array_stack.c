@@ -45,7 +45,7 @@ void output_arrstack(arrstack_t *stack)
     }
 }
 
-int add_1st_arrstack(arrstack_t *stack, const double num, uint64_t *ticks)
+int push_1st_arrstack(arrstack_t *stack, const double num, uint64_t *ticks)
 {
     uint64_t start, end;
     if (stack->top1 == stack->top2)
@@ -80,7 +80,7 @@ void empty_1st_arrstack(arrstack_t *stack, uint64_t *ticks)
     *ticks = end - start;
 }
 
-int add_2nd_arrstack(arrstack_t *stack, const double num, uint64_t *ticks)
+int push_2nd_arrstack(arrstack_t *stack, const double num, uint64_t *ticks)
 {
     uint64_t start, end;
     if (stack->top1 == stack->top2)

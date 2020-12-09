@@ -52,10 +52,10 @@ int main(void)
                                     fgets(buf, BUFSIZE, stdin);
                                     puts("Wrong number.");
                                 }
-                                else if (add_1st_arrstack(arrstack, num, &ticks))
+                                else if (push_1st_arrstack(arrstack, num, &ticks))
                                     puts("Stacks are full.");
                                 else
-                                    printf("Time of adding: %lu. Done.", ticks);
+                                    printf("Time of pushing: %lu. Done.", ticks);
                             }
                             break;
                         case 3:
@@ -65,16 +65,16 @@ int main(void)
                             {
                                 double num;
                                 uint64_t ticks;
-                                puts("Enter a number to add to the 2nd stack:");
+                                puts("Enter a number to push to the 2nd stack:");
                                 if (scanf("%lf", &num) != 1)
                                 {
                                     fgets(buf, BUFSIZE, stdin);
                                     puts("Wrong number.");
                                 }
-                                else if (add_2nd_arrstack(arrstack, num, &ticks))
+                                else if (push_2nd_arrstack(arrstack, num, &ticks))
                                     puts("Stacks are full.");
                                 else
-                                    printf("Time of adding: %lu. Done.", ticks);
+                                    printf("Time of pushing: %lu. Done.", ticks);
                             }
                             break;
                         case 4:
@@ -145,7 +145,7 @@ int main(void)
                             puts("create");
                             break;
                         case 2:
-                            puts("add 1");
+                            puts("push 1");
                             break;
                         case 3:
                             puts("pop 1");
@@ -194,8 +194,8 @@ int arr_menu(void)
     puts("\n\t\tArray stack menu.");
     puts("\tEnter a number to choose command:");
     puts("1. Create an array stack.");
-    puts("2. Add a number to the 1st stack.");
-    puts("3. Add a number to the 2nd stack.");
+    puts("2. Push a number to the 1st stack.");
+    puts("3. Push a number to the 2nd stack.");
     puts("4. Pop a number from the 1st stack.");
     puts("5. Pop a number from the 2nd stack.");
     puts("6. Empty the 1st stack.");
@@ -218,7 +218,7 @@ int list_menu(void)
     puts("\n\t\tList stack menu.");
     puts("\tEnter a number to choose command:");
     puts("1. Create a list stack.");
-    puts("2. Add a number to the stack.");
+    puts("2. Push a number to the stack.");
     puts("3. Pop a number from the stack.");
     puts("4. Empty the stack.");
     puts("5. Output stack.");
