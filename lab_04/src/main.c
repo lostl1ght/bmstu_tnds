@@ -29,10 +29,15 @@ int main(void)
                                 fgets(buf, BUFSIZE, stdin);
                                 puts("Wrong size.");
                             }
-                            else if (!(arrstack = create_arrstack(size)))
-                                puts("Couldn't create a stack.");
-                            else
-                                puts("Done.");
+                            else 
+                            {
+                                uint64_t ticks;
+                                arrstack = create_arrstack(size, &ticks);
+                                if (!arrstack)
+                                    puts("Couldn't create a stack.");
+                                else
+                                    printf("Time of creating: %lu. Done.", ticks);
+                            }
                             break;
                         case 2:
                             if (!arrstack)
@@ -40,16 +45,17 @@ int main(void)
                             else
                             {
                                 double num;
+                                uint64_t ticks;
                                 puts("Enter a number to the 1st stack:");
                                 if (scanf("%lf", &num) != 1)
                                 {
                                     fgets(buf, BUFSIZE, stdin);
                                     puts("Wrong number.");
                                 }
-                                else if (add_1st_arrstack(arrstack, num))
+                                else if (add_1st_arrstack(arrstack, num, &ticks))
                                     puts("Stacks are full.");
                                 else
-                                    puts("Done.");
+                                    printf("Time of adding: %lu. Done.", ticks);
                             }
                             break;
                         case 3:
@@ -58,16 +64,17 @@ int main(void)
                             else
                             {
                                 double num;
+                                uint64_t ticks;
                                 puts("Enter a number to add to the 2nd stack:");
                                 if (scanf("%lf", &num) != 1)
                                 {
                                     fgets(buf, BUFSIZE, stdin);
                                     puts("Wrong number.");
                                 }
-                                else if (add_2nd_arrstack(arrstack, num))
+                                else if (add_2nd_arrstack(arrstack, num, &ticks))
                                     puts("Stacks are full.");
                                 else
-                                    puts("Done.");
+                                    printf("Time of adding: %lu. Done.", ticks);
                             }
                             break;
                         case 4:
@@ -76,10 +83,11 @@ int main(void)
                             else
                             {
                                 double num;
-                                if (pop_1st_arrstack(arrstack, &num))
+                                uint64_t ticks;
+                                if (pop_1st_arrstack(arrstack, &num, &ticks))
                                     puts("Couldn't pop a number. First stack is empty.");
                                 else
-                                    printf("Number: %lf\n", num);
+                                    printf("Number: %lf. Time of popping a number: %lu", num, ticks);
                             }
                             break;
                         case 5:
@@ -88,10 +96,11 @@ int main(void)
                             else
                             {
                                 double num;
-                                if (pop_2nd_arrstack(arrstack, &num))
+                                uint64_t ticks;
+                                if (pop_2nd_arrstack(arrstack, &num, &ticks))
                                     puts("Couldn't pop a number. Second stack is empty.");
                                 else
-                                    printf("Number: %lf\n", num);
+                                    printf("Number: %lf. Time of popping a number: %lu", num, ticks);
                             }
                             break;
                         case 6:
