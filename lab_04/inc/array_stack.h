@@ -20,7 +20,7 @@ int add_1st_arrstack(arrstack_t *stack, const double num);
 int pop_1st_arrstack(arrstack_t *stack, double *const num);
 void empty_1st_arrstack(arrstack_t *stack);
 int add_2nd_arrstack(arrstack_t *stack, const double num);
-int pop_2st_arrstack(arrstack_t *stack, double *const num);
+int pop_2nd_arrstack(arrstack_t *stack, double *const num);
 void empty_2nd_arrstack(arrstack_t *stack);
 
 #endif

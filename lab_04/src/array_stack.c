@@ -26,6 +26,7 @@ void output_arrstack(arrstack_t *stack)
 {
     double *top1 = stack->top1;
     double *top2 = stack->top2;
+    printf("Array size: %zu\n", stack->end - stack->arr);
     puts("First array stack:");
     while (stack->arr <top1)
     {
@@ -52,6 +53,7 @@ int add_1st_arrstack(arrstack_t *stack, const double num)
 int pop_1st_arrstack(arrstack_t *stack, double *const num)
 {
     if (stack->top1 == stack->arr)
+        return 1;
     stack->top1--;
     *num = *stack->top1;
     return 0;
@@ -71,7 +73,7 @@ int add_2nd_arrstack(arrstack_t *stack, const double num)
     return 0;
 }
 
-int pop_2st_arrstack(arrstack_t *stack, double *const num)
+int pop_2nd_arrstack(arrstack_t *stack, double *const num)
 {
     if (stack->top2 == stack->end)
         return 1;
