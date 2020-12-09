@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "array_stack.h"
+#include "list_stack.h"
 
 #define BUFSIZE 64
 
@@ -12,6 +13,7 @@ int main(void)
     int main_cmd, cmd;
     char buf[BUFSIZE];
     arrstack_t *arrstack = NULL;
+    stacknode_t *top = NULL;
     long size;
     while ((main_cmd = main_menu()))
         switch (main_cmd)
@@ -130,19 +132,33 @@ int main(void)
                                 output_arrstack(arrstack);
                             break;
                         default:
-                            puts("unknown");
+                            puts("Unknown command.");
                             break;
                     }
-                if (arrstack)
-                    delete_arrstack(arrstack);
+                delete_arrstack(arrstack);
                 arrstack = NULL;
                 break;
             case 2:
                 while ((cmd = list_menu()))
                     switch (cmd)
                     {
+                        double num;
                         case 1:
-                            puts("push 1");
+                            puts("Enter a number to push to the stack:");
+                            if (scanf("%lf", &num) != 1)
+                                puts("Wrong number.");
+                            else
+                            {
+                                uint64_t ticks;
+                                stacknode_t *tmp;
+                                if (!(tmp = push_list_stack(top, num, &ticks)))
+                                    puts("Couldn't push to the stack.");
+                                else
+                                {
+                                    top = tmp;
+                                    printf("Time of pushing: %lu. Done.", ticks);
+                                }
+                            }
                             break;
                         case 2:
                             puts("pop 1");
@@ -151,15 +167,20 @@ int main(void)
                             puts("empty 1");
                             break;
                         case 4:
-                            puts("out");
+                            if (!top)
+                                puts("Stack is empty.");
+                            else
+                                output_list_stack(top);
                             break;
                         case 5:
                             puts("set cnt");
                             break;
                         default:
-                            puts("unknown");
+                            puts("Unknown command.");
                             break;
                     }
+                delete_list_stack(top);
+                top = NULL;
                 break;
             default:
                 puts("Unknown command.");

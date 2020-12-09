@@ -56,12 +56,12 @@ int pop_list_stack(stacknode_t **top, double *num, uint64_t *ticks)
 {
     if (*top)
     {
-        void *adr;
+        // void *adr;
         uint64_t start, end;
         start = tick();
         stacknode_t *new_top = (*top)->next;
         *num = (*top)->num;
-        adr = *top;
+        // adr = *top;
         delete_stack_node(*top);
         *top = new_top;
         end = tick();
