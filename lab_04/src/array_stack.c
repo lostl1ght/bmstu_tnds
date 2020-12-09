@@ -22,25 +22,27 @@ void delete_arrstack(arrstack_t *stack)
     free(stack);
 }
 
-void output_arrstack(arrstack_t stack)
+void output_arrstack(arrstack_t *stack)
 {
+    double *top1 = stack->top1;
+    double *top2 = stack->top2;
     puts("First array stack:");
-    while (stack.arr <= stack.top1)
+    while (stack->arr <top1)
     {
-        printf("%lf\n", *stack.top1);
-        stack.top1--;
+        top1--;
+        printf("%lf\n", *top1);
     }
-    puts("Second stack:");
-    while (stack.end > stack.top2)
+    puts("Second array stack:");
+    while (stack->end > top2)
     {
-        printf("%lf\n", *stack.top2);
-        stack.top2++;
+        printf("%lf\n", *top2);
+        top2++;
     }
 }
 
 int add_1st_arrstack(arrstack_t *stack, const double num)
 {
-    if (stack->top1 + 1 == stack->top2)
+    if (stack->top1 == stack->top2)
         return 1;
     *stack->top1 = num;
     stack->top1++;
@@ -62,7 +64,7 @@ void empty_1st_arrstack(arrstack_t *stack)
 
 int add_2nd_arrstack(arrstack_t *stack, const double num)
 {
-    if (stack->top1 + 1 == stack->top2)
+    if (stack->top1 == stack->top2)
         return 1;
     stack->top2--;
     *stack->top2 = num;

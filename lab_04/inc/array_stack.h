@@ -14,7 +14,7 @@ typedef struct arrstack
 
 arrstack_t *create_arrstack(const size_t size);
 void delete_arrstack(arrstack_t *stack);
-void output_arrstack(arrstack_t stack);
+void output_arrstack(arrstack_t *stack);
 
 int add_1st_arrstack(arrstack_t *stack, const double num);
 int pop_1st_arrstack(arrstack_t *stack, double *const num);
