@@ -104,10 +104,24 @@ int main(void)
                             }
                             break;
                         case 6:
-                            puts("empty 1");
+                            if (!arrstack)
+                                puts("A stack wasn't created.");
+                            else
+                            {
+                                uint64_t ticks;
+                                empty_1st_arrstack(arrstack, &ticks);
+                                printf("Time of emptying: %lu. Done.", ticks);
+                            }
                             break;
                         case 7:
-                            puts("empty 2");
+                            if (!arrstack)
+                                puts("A stack wasn't created.");
+                            else
+                            {
+                                uint64_t ticks;
+                                empty_2nd_arrstack(arrstack, &ticks);
+                                printf("Time of emptying: %lu. Done.", ticks);
+                            }
                             break;
                         case 8:
                             if (!arrstack)
