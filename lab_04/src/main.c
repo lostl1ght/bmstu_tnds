@@ -71,10 +71,28 @@ int main(void)
                             }
                             break;
                         case 4:
-                            puts("pop 1");
+                            if (!arrstack)
+                                puts("A stack wasn't created.");
+                            else
+                            {
+                                double num;
+                                if (pop_1st_arrstack(arrstack, &num))
+                                    puts("Couldn't pop a number. First stack is empty.");
+                                else
+                                    printf("Number: %lf\n", num);
+                            }
                             break;
                         case 5:
-                            puts("pop 2");
+                            if (!arrstack)
+                                puts("A stack wasn't created.");
+                            else
+                            {
+                                double num;
+                                if (pop_2nd_arrstack(arrstack, &num))
+                                    puts("Couldn't pop a number. Second stack is empty.");
+                                else
+                                    printf("Number: %lf\n", num);
+                            }
                             break;
                         case 6:
                             puts("empty 1");
@@ -132,11 +150,12 @@ int main_menu(void)
 {
     int cmd;
     char buf[BUFSIZE];
-    puts("\n\tWelcome to Stack Playground.");
+    puts("\n\t\tWelcome to Stack Playground.");
     puts("\tEnter a number to choose stack type:");
     puts("1. Array stack.");
     puts("2. List stack.");
     puts("0. Exit program.");
+    printf("Command: ");
     if (scanf("%d", &cmd) != 1)
     {
         fgets(buf, BUFSIZE, stdin);
@@ -149,8 +168,8 @@ int arr_menu(void)
 {
     int cmd;
     char buf[BUFSIZE];
-    puts("\n\tArray stack menu.");
-    puts("\n\tEnter a number to choose command:");
+    puts("\n\t\tArray stack menu.");
+    puts("\tEnter a number to choose command:");
     puts("1. Create an array stack.");
     puts("2. Add a number to the 1st stack.");
     puts("3. Add a number to the 2nd stack.");
@@ -160,6 +179,7 @@ int arr_menu(void)
     puts("7. Empty the 2nd stack.");
     puts("8. Output stacks.");
     puts("0. Exit this menu.");
+    printf("Command: ");
     if (scanf("%d", &cmd) != 1)
     {
         fgets(buf, BUFSIZE, stdin);
@@ -172,14 +192,15 @@ int list_menu(void)
 {
     int cmd;
     char buf[BUFSIZE];
-    puts("\n\tList stack menu.");
-    puts("\n\tEnter a number to choose command:");
+    puts("\n\t\tList stack menu.");
+    puts("\tEnter a number to choose command:");
     puts("1. Create a list stack.");
     puts("2. Add a number to the stack.");
     puts("3. Pop a number from the stack.");
     puts("4. Empty the stack.");
     puts("5. Output stack.");
     puts("0. Exit this menu.");
+    printf("Command: ");
     if (scanf("%d", &cmd) != 1)
     {
         fgets(buf, BUFSIZE, stdin);
