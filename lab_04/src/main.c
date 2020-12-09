@@ -21,6 +21,8 @@ int main(void)
                     switch (cmd)
                     {
                         case 1:
+                            if (arrstack)
+                                delete_arrstack(arrstack);
                             puts("Enter array size:");
                             if (scanf("%ld", &size) != 1 || size < 1)
                             {
