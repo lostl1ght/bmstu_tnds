@@ -146,19 +146,25 @@ int main(void)
                         case 1:
                             {
                                 double num;
-                                puts("Enter a number to push to the stack:");
-                                if (scanf("%lf", &num) != 1)
-                                    puts("Wrong number.");
+                                if (max_size && size >= max_size)
+                                    puts("Can't push. Stack is full.");
                                 else
                                 {
-                                    uint64_t ticks;
-                                    stacknode_t *tmp;
-                                    if (!(tmp = push_list_stack(top, num, &ticks)))
-                                        puts("Couldn't push to the stack.");
+                                    puts("Enter a number to push to the stack:");
+                                    if (scanf("%lf", &num) != 1)
+                                        puts("Wrong number.");
                                     else
                                     {
-                                        top = tmp;
-                                        printf("Time of pushing: %lu. Done.", ticks);
+                                        uint64_t ticks;
+                                        stacknode_t *tmp;
+                                        if (!(tmp = push_list_stack(top, num, &ticks)))
+                                            puts("Couldn't push to the stack.");
+                                        else
+                                        {
+                                            top = tmp;
+                                            size++;
+                                            printf("Time of pushing: %lu. Done.", ticks);
+                                        }
                                     }
                                 }
                             }
@@ -170,7 +176,10 @@ int main(void)
                                 if (pop_list_stack(&top, &num, &ticks))
                                     puts("Stack is empty.");
                                 else
+                                {
+                                    size--;
                                     printf("Number: %lf. Time of popping: %lu\n", num, ticks);
+                                }
                             }
                             break;
                         case 3:
@@ -185,10 +194,19 @@ int main(void)
                             if (!top)
                                 puts("Stack is empty.");
                             else
+                            {
+                                if (max_size)
+                                    printf("Max stack size: %ld. ", max_size);
+                                else
+                                    printf("Max stack size: inf. ");
+                                printf("Current size: %ld\n", size);
                                 output_list_stack(top);
+                            }
                             break;
                         case 5:
-                            puts("set cnt");
+                            puts("Enter max stack size:");             
+                            if (scanf("%ld", &max_size) != 1 || max_size < 1)
+                                puts("Wrong max size.");
                             break;
                         default:
                             puts("Unknown command.");
@@ -196,6 +214,7 @@ int main(void)
                     }
                 delete_list_stack(top);
                 top = NULL;
+                max_size = 0;
                 break;
             default:
                 puts("Unknown command.");
