@@ -142,19 +142,19 @@ int main(void)
                     switch (cmd)
                     {
                         case 1:
-                            puts("create");
-                            break;
-                        case 2:
                             puts("push 1");
                             break;
-                        case 3:
+                        case 2:
                             puts("pop 1");
                             break;
-                        case 4:
+                        case 3:
                             puts("empty 1");
                             break;
-                        case 5:
+                        case 4:
                             puts("out");
+                            break;
+                        case 5:
+                            puts("set cnt");
                             break;
                         default:
                             puts("unknown");
@@ -217,11 +217,11 @@ int list_menu(void)
     char buf[BUFSIZE];
     puts("\n\t\tList stack menu.");
     puts("\tEnter a number to choose command:");
-    puts("1. Create a list stack.");
-    puts("2. Push a number to the stack.");
-    puts("3. Pop a number from the stack.");
-    puts("4. Empty the stack.");
-    puts("5. Output stack.");
+    puts("1. Push a number to the stack.");
+    puts("2. Pop a number from the stack.");
+    puts("3. Empty the stack.");
+    puts("4. Output stack.");
+    puts("5. Set stack size (default: indefinite).");
     puts("0. Exit this menu.");
     printf("Command: ");
     if (scanf("%d", &cmd) != 1)

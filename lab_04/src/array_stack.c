@@ -32,7 +32,7 @@ void output_arrstack(arrstack_t *stack)
     double *top2 = stack->top2;
     printf("Array size: %zu\n", stack->end - stack->arr);
     puts("First array stack:");
-    while (stack->arr <top1)
+    while (stack->arr < top1)
     {
         top1--;
         printf("%lf\n", *top1);
