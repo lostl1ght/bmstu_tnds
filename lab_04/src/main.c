@@ -202,6 +202,7 @@ int main(void)
                                 printf("Current size: %ld\n", size);
                                 output_list_stack(top);
                             }
+                            output_arr();
                             break;
                         case 5:
                             puts("Enter max stack size:");             
@@ -212,6 +213,7 @@ int main(void)
                             puts("Unknown command.");
                             break;
                     }
+                empty_arr();
                 delete_list_stack(top);
                 top = NULL;
                 max_size = 0;

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tick.h"
+#include "free_adr.h"
 
 typedef struct stacknode stacknode_t;
 

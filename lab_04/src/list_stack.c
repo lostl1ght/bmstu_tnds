@@ -1,5 +1,7 @@
 #include "list_stack.h"
 
+adrarr_t arr = {0};
+
 stacknode_t *create_stack_node(const double num)
 {
     stacknode_t *node = calloc(1, sizeof *node);
@@ -56,17 +58,17 @@ int pop_list_stack(stacknode_t **top, double *num, uint64_t *ticks)
 {
     if (*top)
     {
-        // void *adr;
+        size_t adr;
         uint64_t start, end;
         start = tick();
         stacknode_t *new_top = (*top)->next;
         *num = (*top)->num;
-        // adr = *top;
+        adr = (size_t)*top;
         delete_stack_node(*top);
         *top = new_top;
         end = tick();
         *ticks = end - start;
-        // Запись адреса
+        add_to_arr(adr);
         return 0;
     }
     else
