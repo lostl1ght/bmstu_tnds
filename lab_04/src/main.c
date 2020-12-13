@@ -152,7 +152,10 @@ int main(void)
                                 {
                                     puts("Enter a number to push to the stack:");
                                     if (scanf("%lf", &num) != 1)
+                                    {
+                                        fgets(buf, BUFSIZE, stdin);
                                         puts("Wrong number.");
+                                    }
                                     else
                                     {
                                         uint64_t ticks;
