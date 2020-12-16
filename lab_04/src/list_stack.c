@@ -77,10 +77,13 @@ int pop_list_stack(stacknode_t **top, double *num, uint64_t *ticks)
 
 stacknode_t *empty_list_stack(stacknode_t *top, uint64_t *ticks)
 {
-    uint64_t start, end;
-    start = tick();
-    delete_list_stack(top);
-    end = tick();
-    *ticks = end - start;
+    uint64_t sum = 0, t;
+    double num;
+    while (top)
+    {
+        pop_list_stack(&top, &num, &t);
+        sum += t;
+    }
+    *ticks = sum;
     return NULL;
 }
