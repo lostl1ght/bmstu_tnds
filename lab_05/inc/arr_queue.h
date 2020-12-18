@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "task.h"
+#include "rc.h"
 
 typedef struct
 {
