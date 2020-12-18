@@ -1,8 +1,8 @@
 #include "arr_queue.h"
 
-arr_queue_t *create_arr_queue(const size_t cap)
+arrq_t *create_arr_queue(const size_t cap)
 {
-    arr_queue_t *queue;
+    arrq_t *queue;
     if (!(queue = malloc(sizeof *queue)))
         return NULL;
     queue->cap = cap;
@@ -17,23 +17,23 @@ arr_queue_t *create_arr_queue(const size_t cap)
     return queue;
 }
 
-void delete_arr_queue(arr_queue_t *queue)
+void delete_arr_queue(arrq_t *queue)
 {
     free(queue->arr);
     free(queue);
 }
 
-int is_arr_full(arr_queue_t *const queue)
+int is_arr_full(arrq_t *const queue)
 {
     return queue->size == queue->cap;
 }
 
-int is_arr_empty(arr_queue_t *const queue)
+int is_arr_empty(arrq_t *const queue)
 {
     return queue->size == 0;
 }
 
-int put_arr_queue(arr_queue_t *const queue, const task_t task)
+int put_arr_queue(arrq_t *const queue, const task_t task)
 {
     if (is_arr_full(queue))
         return 1;
@@ -43,7 +43,7 @@ int put_arr_queue(arr_queue_t *const queue, const task_t task)
     return 0;
 }
 
-int get_arr_queue(arr_queue_t *const queue, task_t *task)
+int get_arr_queue(arrq_t *const queue, task_t *task)
 {
     if (is_arr_empty(queue))
         return 1;
