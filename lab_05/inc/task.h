@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    double time_out;
+    void *data;
 } task_t;
 
 #endif
