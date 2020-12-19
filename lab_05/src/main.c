@@ -6,6 +6,7 @@
 int menu(void);
 int arr_menu(void);
 int list_menu(void);
+void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4);
 
 int main(void)
 {
@@ -47,7 +48,7 @@ int main(void)
                             puts("input");
                             break;
                         case 3:
-                            puts("show");
+                            output_param(t1, t2, t3, t4);
                             break;
                         default:
                             puts("Unknown command");
@@ -80,7 +81,7 @@ int main(void)
                             puts("input");
                             break;
                         case 3:
-                            puts("show");
+                            output_param(t1, t2, t3, t4);
                             break;
                         default:
                             puts("Unknown command");
@@ -147,4 +148,12 @@ int list_menu(void)
         return -1;
     }
     return cmd;
+}
+
+void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4)
+{
+    printf("Type 1 request income time:  min - %ld, max - %ld\n", t1.llim, t1.rlim);
+    printf("Type 2 request income time:  min - %ld, max - %ld\n", t2.llim, t2.rlim);
+    printf("Type 1 request process time: min - %ld, max - %ld\n", t3.llim, t3.rlim);
+    printf("Type 2 request process time: min - %ld, max - %ld\n", t4.llim, t4.rlim);
 }
