@@ -44,14 +44,14 @@ void arr_model(arrq_t *const q1, arrq_t *const q2,
                 type = 2;
                 t_oa = get_time(t4);
                 get_arr_queue(q2, &task);
-                total_t1 += t_oa;
+                total_t2 += t_oa;
             }
             else if (!is_arr_empty(q1))
             {
                 type = 1;
                 t_oa = get_time(t3);
                 get_arr_queue(q1, &task);
-                total_t2 += t_oa;
+                total_t1 += t_oa;
             }
         }
         /*Самое маленькое время, АКА что сейчас будет происходить.
@@ -113,7 +113,15 @@ void arr_model(arrq_t *const q1, arrq_t *const q2,
             printf("Q2 size: %zu, avg: %lf\n", q2->size, (double)overall_len2 / out_tasks2);
         }
     }
-    printf("\nTotal time: %lf\n", total_time);
+    double expected_time;    
+    if (t1.llim + t1.rlim > t3.llim + t3.rlim) 
+        expected_time = (double)(t1.llim + t1.rlim) * 500;
+    else
+        expected_time = (double)(t3.llim + t3.rlim) * 500;
+    double delta = fabs(total_time - expected_time) / expected_time * 100;
+    printf("\nExpected time: %lf\n", expected_time);
+    printf("Total time: %lf\n", total_time);
+    printf("Delta: %lf%%\n", delta);
     printf("Service time: %lf\n", total_t1 + total_t2);
     printf("Hold time: %lf\n", fabs(total_time - total_t1 - total_t2));
     printf("In tasks 1: %zu\n", in_tasks1);
@@ -236,8 +244,16 @@ void list_model(listq_t *const q1, listq_t *const q2,
             printf("Q2 size: %zu, avg: %lf\n", q2->size, (double)overall_len2 / out_tasks2);
         }
     }
-    printf("\nTotal time: %lf\n", total_time);
+    double expected_time;
+    if (t1.llim + t1.rlim > t3.llim + t3.rlim) 
+        expected_time = (double)(t1.llim + t1.rlim) * 500;
+    else
+        expected_time = (double)(t3.llim + t3.rlim) * 500;
+    double delta = fabs(total_time - expected_time) / expected_time * 100;
+    printf("\nExpected time: %lf\n", expected_time);
+    printf("Total time: %lf\n", total_time);
     printf("Service time: %lf\n", total_t1 + total_t2);
+    printf("Delta: %lf%%\n", delta);
     printf("Hold time: %lf\n", fabs(total_time - total_t1 - total_t2));
     printf("In tasks 1: %zu\n", in_tasks1);
     printf("Out tasks 1: %zu\n", out_tasks1);
