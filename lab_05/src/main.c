@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "arr_model.h"
+#include "model.h"
 
 #define BUFSIZE 64
 
@@ -59,7 +59,22 @@ int main(void)
                     switch (cmd)
                     {
                         case 1:
-                            puts("run");
+                            {
+                                listq_t *q1, *q2;
+                                if (!(q1 = create_list_queue(cap)))
+                                    puts("Couldn't create a queue.");
+                                else if (!(q2 = create_list_queue(cap)))
+                                {
+                                    delete_list_queue(q1);
+                                    puts("Couldn't create a queue.");
+                                }
+                                else
+                                {
+                                    list_model(q1, q2, t1, t2, t3, t4);
+                                    delete_list_queue(q1);
+                                    delete_list_queue(q2);
+                                }
+                            }
                             break;
                         case 2:
                             puts("input");
