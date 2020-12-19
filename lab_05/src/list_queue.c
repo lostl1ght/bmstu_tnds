@@ -1,5 +1,7 @@
 #include "list_queue.h"
 
+adrarr_t arr = {0};
+
 qnode_t *create_qnode(const task_t task)
 {
     qnode_t *node;
@@ -85,6 +87,7 @@ int get_list_queue(listq_t *const queue, task_t *task)
     {
         queue->front = queue->front->next;
     }
+    add_to_arr((size_t)node);
     delete_qnode(node);
     queue->size--;
     return OK;

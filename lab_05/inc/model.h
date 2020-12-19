@@ -7,6 +7,7 @@
 #include "get_time.h"
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 void arr_model(arrq_t *const q1, arrq_t *const q2,
                const time_range_t t1, const time_range_t t2,

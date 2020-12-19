@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "task.h"
 #include "rc.h"
+#include "free_adr.h"
 
 typedef struct qnode qnode_t;
 

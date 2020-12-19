@@ -259,4 +259,13 @@ void list_model(listq_t *const q1, listq_t *const q2,
     printf("Out tasks 1: %zu\n", out_tasks1);
     printf("In tasks 2: %zu\n", in_tasks2);
     printf("Out tasks 2: %zu\n", out_tasks2);
+
+    puts("Output free ptr array? (y/n):");
+    char buf[256];
+    fgets(buf, 256, stdin);
+    fgets(buf, 256, stdin);
+    puts(buf);
+    if (strcmp(buf, "y\n") == 0)
+        output_arr();
+    empty_arr();
 }
