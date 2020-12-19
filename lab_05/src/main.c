@@ -6,8 +6,8 @@
 int menu(void);
 int arr_menu(void);
 int list_menu(void);
-void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4);
-void input_param(time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4);
+void output_param(size_t cap, time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4);
+void input_param(size_t *cap, time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4);
 void input(time_range_t *t);
 
 int main(void)
@@ -21,7 +21,7 @@ int main(void)
         time_range_t t2 = {.llim = 0, .rlim = 3};
         time_range_t t3 = {.llim = 0, .rlim = 4};
         time_range_t t4 = {.llim = 0, .rlim = 1};
-        size_t cap = 10;
+        size_t cap = 100;
         switch (cmd)
         {
             case 1:
@@ -47,10 +47,10 @@ int main(void)
                             }
                             break;
                         case 2:
-                            input_param(&t1, &t2, &t3, &t4);
+                            input_param(&cap, &t1, &t2, &t3, &t4);
                             break;
                         case 3:
-                            output_param(t1, t2, t3, t4);
+                            output_param(cap, t1, t2, t3, t4);
                             break;
                         default:
                             puts("Unknown command");
@@ -80,10 +80,10 @@ int main(void)
                             }
                             break;
                         case 2:
-                            input_param(&t1, &t2, &t3, &t4);
+                            input_param(&cap, &t1, &t2, &t3, &t4);
                             break;
                         case 3:
-                            output_param(t1, t2, t3, t4);
+                            output_param(cap, t1, t2, t3, t4);
                             break;
                         default:
                             puts("Unknown command");
@@ -152,16 +152,37 @@ int list_menu(void)
     return cmd;
 }
 
-void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4)
+void output_param(size_t cap, time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4)
 {
+    printf("Queue capacity: %zu\n", cap);
     printf("Type 1 request income time:  min - %ld, max - %ld\n", t1.llim, t1.rlim);
     printf("Type 2 request income time:  min - %ld, max - %ld\n", t2.llim, t2.rlim);
     printf("Type 1 request process time: min - %ld, max - %ld\n", t3.llim, t3.rlim);
     printf("Type 2 request process time: min - %ld, max - %ld\n", t4.llim, t4.rlim);
 }
 
-void input_param(time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4)
+void input_param(size_t *cap, time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4)
 {
+    long c;
+    int ok = 0;
+    char buf[BUFSIZE];
+    puts("Input queue capacity:");
+    while (!ok)
+    {
+        if (scanf("%ld", &c) != 1)
+        {
+            puts("Wrong parameters.");
+            fgets(buf, BUFSIZE, stdin);
+        }
+        else if (c < 1)
+            puts("Negatives were input.");
+        else
+        {
+            *cap = c;
+            ok = 1;
+        }
+    }
+
     puts("Input type 1 request income time: min *space* max:");
     input(t1);
     puts("Input type 2 request income time: min *space* max:");
