@@ -7,6 +7,8 @@ int menu(void);
 int arr_menu(void);
 int list_menu(void);
 void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_t t4);
+void input_param(time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4);
+void input(time_range_t *t);
 
 int main(void)
 {
@@ -45,7 +47,7 @@ int main(void)
                             }
                             break;
                         case 2:
-                            puts("input");
+                            input_param(&t1, &t2, &t3, &t4);
                             break;
                         case 3:
                             output_param(t1, t2, t3, t4);
@@ -78,7 +80,7 @@ int main(void)
                             }
                             break;
                         case 2:
-                            puts("input");
+                            input_param(&t1, &t2, &t3, &t4);
                             break;
                         case 3:
                             output_param(t1, t2, t3, t4);
@@ -156,4 +158,36 @@ void output_param(time_range_t t1, time_range_t t2, time_range_t t3, time_range_
     printf("Type 2 request income time:  min - %ld, max - %ld\n", t2.llim, t2.rlim);
     printf("Type 1 request process time: min - %ld, max - %ld\n", t3.llim, t3.rlim);
     printf("Type 2 request process time: min - %ld, max - %ld\n", t4.llim, t4.rlim);
+}
+
+void input_param(time_range_t *t1, time_range_t *t2, time_range_t *t3, time_range_t *t4)
+{
+    puts("Input type 1 request income time: min *space* max:");
+    input(t1);
+    puts("Input type 2 request income time: min *space* max:");
+    input(t2);
+    puts("Input type 1 request process time: min *space* max:");
+    input(t3);
+    puts("Input type 2 request process time: min *space* max:");
+    input(t4);
+}
+
+void input(time_range_t *t)
+{
+    int ok = 0;
+    char buf[BUFSIZE];
+    while (!ok)
+    {
+        if (scanf("%ld%ld", &t->llim, &t->rlim) != 2)
+        {
+            puts("Wrong parameters.");
+            fgets(buf, BUFSIZE, stdin);
+        }
+        else if (t->llim < 0 || t->rlim < 0)
+            puts("Negatives were input.");
+        else if (t->llim > t->rlim)
+            puts("Min is greater than max.");
+        else
+            ok = 1;
+    }
 }
