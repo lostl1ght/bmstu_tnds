@@ -311,7 +311,7 @@ void test_arr(void)
         end = tick();
         sum_g += end - start;
     }
-    puts("\n\tList testing.");
+    puts("\n\tArray testing.");
     printf("Time of putting: %ju\n", sum_p / 1000);
     printf("Time of getting: %ju\n", sum_g / 1000);
 }
