@@ -3,6 +3,7 @@ OUTPATH = ./out/
 INCPATH = ./inc/
 SRCPATH = ./src/
 CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Werror -Wfloat-conversion -O0
+LIBS = -lm
 
 SRCS = $(wildcard $(SRCPATH)*.c)
 
@@ -19,7 +20,7 @@ unit: $(OUTPATH)unit.lastbuildstate unit_tests.exe
 	 $(MEMCHECK) $(MEMFLAGS) ./unit_tests.exe
 
 app.exe: $(SRCS:$(SRCPATH)%.c=$(OUTPATH)%.o)
-	$(CC) $(CFLAGS) $^ -o app.exe
+	$(CC) $(CFLAGS) $^ -o app.exe $(LIBS)
 
 $(OUTPATH)%.o: $(SRCPATH)%.c | dir
 	$(CC) -I$(INCPATH) $(CFLAGS) -c $< -o $@
