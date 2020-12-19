@@ -269,3 +269,49 @@ void list_model(listq_t *const q1, listq_t *const q2,
         output_arr();
     empty_arr();
 }
+
+void test_list(void)
+{
+    task_t task = {.data = NULL};
+    listq_t *q;
+    q = create_list_queue(10);
+    uint64_t sum_p = 0, sum_g = 0;
+    for (size_t i = 0; i < 1000; i++)
+    {
+        uint64_t start, end;
+        start = tick();
+        put_list_queue(q, task);
+        end = tick();
+        sum_p += end - start;
+        start = tick();
+        get_list_queue(q, &task);
+        end = tick();
+        sum_g += end - start;
+    }
+    puts("\n\tList testing.");
+    printf("Time of putting: %ju\n", sum_p / 1000);
+    printf("Time of getting: %ju\n", sum_g / 1000);
+}
+
+void test_arr(void)
+{
+    task_t task = {.data = NULL};
+    arrq_t *q;
+    q = create_arr_queue(10);
+    uint64_t sum_p = 0, sum_g = 0;
+    for (size_t i = 0; i < 1000; i++)
+    {
+        uint64_t start, end;
+        start = tick();
+        put_arr_queue(q, task);
+        end = tick();
+        sum_p += end - start;
+        start = tick();
+        get_arr_queue(q, &task);
+        end = tick();
+        sum_g += end - start;
+    }
+    puts("\n\tList testing.");
+    printf("Time of putting: %ju\n", sum_p / 1000);
+    printf("Time of getting: %ju\n", sum_g / 1000);
+}

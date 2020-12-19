@@ -90,6 +90,12 @@ int main(void)
                             break;
                     }
                 break;
+            case 3:
+                test_arr();
+                break;
+            case 4:
+                test_list();
+                break;
             default:
                 puts("Unknown command");
                 break;
@@ -106,6 +112,8 @@ int menu(void)
     puts("\n\tQueue modelling.");
     puts("1. Array model");
     puts("2. List model.");
+    puts("3. Test array.");
+    puts("4. Test list.");
     puts("0. Exit.");
     printf("Command: ");
     if (scanf("%d", &cmd) != 1)
