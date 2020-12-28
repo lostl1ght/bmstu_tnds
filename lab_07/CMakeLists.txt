@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(tads_lab_01)
+project(tads_lab_07)
 
 set(CMAKE_C_COMPILER gcc)
 set(CMAKE_C_FLAGS_RELEASE   "-std=c99 -Wall -Wextra -Wpedantic -Werror -g0")
