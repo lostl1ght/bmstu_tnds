@@ -8,7 +8,7 @@ LIBS = -lm
 SRCS = $(wildcard $(SRCPATH)*.c)
 
 .NOTPARALLEL: release debug
-.PHONY: release debug clean dir deps func
+.PHONY: release debug clean dir deps
 
 release: CFLAGS += -g0
 release: $(OUTPATH)release.lastbuildstate app.exe
