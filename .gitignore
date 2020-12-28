@@ -62,3 +62,6 @@ out/
 # Utility files
 out.txt
 in.txt
+
+# Clion files
+.idea/
