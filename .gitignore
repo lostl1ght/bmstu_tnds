@@ -62,6 +62,8 @@ out/
 # Utility files
 out.txt
 in.txt
+graph.png
+graph.txt
 
 # Clion files
 .idea/

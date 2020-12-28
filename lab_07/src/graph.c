@@ -64,10 +64,47 @@ int input_adjmatr(adjmatr_t *m)
 
 void output_adjmatr(adjmatr_t *m)
 {
-    for (int i = 0 ; i < m->sz; i++)
-    {        
-        for (int j = 0 ; j < m->sz; j++)
+    for (int i = 0; i < m->sz; i++)
+    {
+        for (int j = 0; j < m->sz; j++)
             printf("%d ", m->m[i][j]);
         puts("");
     }
+}
+
+void export_graph(adjmatr_t m, int is_conn)
+{
+    FILE *export = fopen("graph.txt", "w");
+    fprintf(export, "graph {\n");
+    fprintf(export, "label = \"%s\";\n", (is_conn ? "Connected": "Not connected"));
+    fprintf(export, "labelloc = \"t\";\n");
+
+    for (int i = 0; i < m.sz; ++i)
+    {
+        for (int j = 0; j < m.sz; ++j)
+        {
+            if (m.m[i][j])
+            {
+                m.m[j][i] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < m.sz; ++i)
+    {
+        for (int j = 0; j < m.sz; ++j)
+        {
+            if (m.m[i][j])
+            {
+                fprintf(export, "%d -- %d;\n", i, j);
+            }
+        }
+        fprintf(export, "%d;\n", i);
+    }
+
+    fprintf(export, "}\n");
+    fclose(export);
+
+    system("dot -Tpng graph.txt -o graph.png");
+    system("eog graph.png");
 }

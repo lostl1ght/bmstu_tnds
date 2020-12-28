@@ -27,5 +27,7 @@ int main(void)
     puts("Adjacency matrix:");
     output_adjmatr(graph);
 
+    export_graph(*graph, 0);
+
     return 0;
 }

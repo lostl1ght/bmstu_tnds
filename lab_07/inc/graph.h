@@ -17,4 +17,6 @@ void delete_adjmatr(adjmatr_t *m);
 int input_adjmatr(adjmatr_t *m);
 void output_adjmatr(adjmatr_t *m);
 
+void export_graph(adjmatr_t m, int is_conn);
+
 #endif
