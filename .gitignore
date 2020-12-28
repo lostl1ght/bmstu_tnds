@@ -67,3 +67,7 @@ graph.txt
 
 # Clion files
 .idea/
+
+# Cmake files
+cmake-build-release/
+cmake-build-debug/
