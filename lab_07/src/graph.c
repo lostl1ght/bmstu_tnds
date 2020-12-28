@@ -80,25 +80,15 @@ void export_graph(adjmatr_t m, int is_conn)
     fprintf(export, "labelloc = \"t\";\n");
 
     for (int i = 0; i < m.sz; ++i)
-    {
         for (int j = 0; j < m.sz; ++j)
-        {
             if (m.m[i][j])
-            {
                 m.m[j][i] = 0;
-            }
-        }
-    }
 
     for (int i = 0; i < m.sz; ++i)
     {
         for (int j = 0; j < m.sz; ++j)
-        {
             if (m.m[i][j])
-            {
                 fprintf(export, "%d -- %d;\n", i, j);
-            }
-        }
         fprintf(export, "%d;\n", i);
     }
 
