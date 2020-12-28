@@ -57,6 +57,12 @@ int input_adjmatr(adjmatr_t *m)
             puts("Worng number.");
             return NUM_ERR;
         }
+        if (i == j)
+        {
+            puts("Wrong path.");
+            return NUM_ERR;
+        }
+        
         m->m[i][j] = 1;
         m->m[j][i] = 1;
     }
