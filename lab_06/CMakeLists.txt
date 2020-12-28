@@ -13,4 +13,4 @@ include_directories(inc)
 aux_source_directory(src SRC)
 add_executable(lab_06 ${SRC})
 
-target_link_libraries(lab_06 "-lm")
+target_link_libraries(lab_06 ${LIBS})
