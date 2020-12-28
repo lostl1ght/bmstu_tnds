@@ -108,3 +108,22 @@ void export_graph(adjmatr_t m, int is_conn)
     system("dot -Tpng graph.txt -o graph.png");
     system("eog graph.png");
 }
+
+int is_connected(const adjmatr_t *m)
+{
+    int visited[m->sz];
+    for (int i = 1; i < m->sz; i++)
+        visited[i] = 0;
+    int visited_ver = dfs_adjmatr(m, visited, 0);
+    return visited_ver == m->sz;
+}
+
+int dfs_adjmatr(const adjmatr_t *m, int *visited, int ver)
+{
+    int visited_ver = 1;
+    visited[ver] = 1;
+    for (int i = 0; i < m->sz; i++)
+        if (m->m[ver][i] && !visited[i])
+            visited_ver += dfs_adjmatr(m, visited, i);
+    return visited_ver;
+}

@@ -19,4 +19,7 @@ void output_adjmatr(adjmatr_t *m);
 
 void export_graph(adjmatr_t m, int is_conn);
 
+int is_connected(const adjmatr_t *m);
+int dfs_adjmatr(const adjmatr_t *m, int *visited, int ver);
+
 #endif

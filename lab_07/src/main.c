@@ -6,9 +6,9 @@ int main(void)
 {
     puts("This program enables to find out if a graph is connected.");
 
-    puts("Enter veterx number: ");
-    long size;
-    if (scanf("%ld", &size) != 1 || size < 1)
+    puts("Enter vertices number: ");
+    int size;
+    if (scanf("%d", &size) != 1 || size < 1)
     {
         puts("Wrong number.");
         return NUM_ERR;
@@ -27,7 +27,11 @@ int main(void)
     puts("Adjacency matrix:");
     output_adjmatr(graph);
 
-    export_graph(*graph, 0);
+    int is_conn = is_connected(graph);
+
+    export_graph(*graph, is_conn);
+
+    delete_adjmatr(graph);
 
     return 0;
 }

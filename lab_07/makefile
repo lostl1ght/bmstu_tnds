@@ -3,7 +3,7 @@ OUTPATH = ./out/
 INCPATH = ./inc/
 SRCPATH = ./src/
 CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -Wfloat-conversion -O0
-LIBS = -lm
+LIBS = 
 
 SRCS = $(wildcard $(SRCPATH)*.c)
 
