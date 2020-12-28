@@ -42,7 +42,7 @@ dir:
 	mkdir -p $(OUTPATH)
 
 clean:
-	rm -rf *.exe $(OUTPATH)*.o $(OUTPATH)*.gcov $(OUTPATH)*.gcda $(OUTPATH)*.gcno $(OUTPATH)*.lastbuildstate $(OUTPATH)*.d
+	rm -rf *.exe $(OUTPATH)*.o $(OUTPATH)*.gcov $(OUTPATH)*.gcda $(OUTPATH)*.gcno $(OUTPATH)*.lastbuildstate $(OUTPATH)*.d graph.png graph.txt
 
 deps:
 	rm -f $(OUTPATH)*.d
